@@ -2,15 +2,21 @@ import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import About from 'components/Routes/About'
 import Home from 'components/Routes/Home'
+import LayoutWrapper from 'components/Wrappers/LayoutWrapper'
 
 const router = createBrowserRouter([
     {
-        path: '/',
-        element: <Home />,
-    },
-    {
-        path: 'about',
-        element: <About />,
+        element: <LayoutWrapper />,
+        children: [
+            {
+                path: '/',
+                element: <Home />,
+            },
+            {
+                path: 'about',
+                element: <About />,
+            },
+        ],
     },
 ])
 
