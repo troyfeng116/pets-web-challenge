@@ -1,8 +1,8 @@
 import React from 'react'
-import Home from 'components/Home'
+import AppRouterProvider from 'components/Router'
 
 const App: React.FC = () => {
-    return <Home />
+    return <AppRouterProvider />
 }
 
 export default App
