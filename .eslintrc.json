@@ -27,7 +27,7 @@
             {
                 "groups": [
                     // Style imports.
-                    ["^.+\\.s?css$"],
+                    ["^.+\\.s?css$", "styled"],
 
                     // Node.js builtins. You could also generate this regex if you use a `.js` config.
                     // For example: `^(${require("module").builtinModules.join("|")})(/|$)`
