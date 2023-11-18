@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import React from 'react'
 import { FlexColCenterContainer } from 'components/Styled/Flex'
 import { ContainedImg } from 'components/Styled/Image'
+import { downloadPetImage } from 'lib/api/downloadPetImage'
 import { Pet } from 'models/Pet'
 
 interface PetCardProps {
@@ -25,6 +26,7 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             <p>{title}</p>
             <p>{description}</p>
             <p>{created}</p>
+            <button onClick={() => downloadPetImage(petInfo)}>Download image</button>
         </Card>
     )
 }
