@@ -8,6 +8,9 @@ import { Pet } from 'models/Pet'
 
 interface PetCardProps {
     petInfo: Pet
+    isSelected: boolean
+
+    onSelect: (petUrl: string) => void
 }
 
 const Card = styled(FlexColCenterContainer)`
@@ -17,11 +20,12 @@ const Card = styled(FlexColCenterContainer)`
 `
 
 export const PetCard: React.FC<PetCardProps> = (props) => {
-    const { petInfo } = props
+    const { petInfo, isSelected, onSelect } = props
     const { url, title, description, created } = petInfo
 
     return (
         <Card>
+            <input type="checkbox" checked={isSelected} onChange={() => onSelect(url)} />
             <ContainedImg height={190} src={url} alt="title" />
             <p>{title}</p>
             <p>{description}</p>
