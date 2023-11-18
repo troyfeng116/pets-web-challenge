@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PetCard from 'components/PetCard'
-import { usePets } from 'hooks/usePets'
+import { usePetsContext } from 'components/Wrappers/PetsProvider'
+import { OrderBy } from 'models/OrderBy'
 
 const Grid = styled.div`
     display: grid;
@@ -11,8 +12,21 @@ const Grid = styled.div`
 `
 
 export const Home: React.FC = () => {
-    const { petsState } = usePets()
+    const { petsState, sortByName, search } = usePetsContext()
     const { isLoading, error, lastUpdated, pets } = petsState
+
+    const [searchText, setSearchText] = useState<string>('')
+
+    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setSearchText(e.target.value)
+    }
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            search(searchText)
+        }, 390)
+        return () => clearTimeout(timeout)
+    }, [searchText, search])
 
     if (isLoading) {
         return <div>loading...</div>
@@ -24,6 +38,9 @@ export const Home: React.FC = () => {
 
     return (
         <div>
+            <button onClick={() => sortByName(OrderBy.ASC)}>Sort asc</button>
+            <button onClick={() => sortByName(OrderBy.DESC)}>Sort desc</button>
+            <input placeholder="search" onChange={handleInputChange} value={searchText} />
             {lastUpdated && <div>Last updated: {lastUpdated.toLocaleDateString()}</div>}
             <Grid>
                 {pets.map((petInfo, idx) => {

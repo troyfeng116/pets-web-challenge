@@ -13,13 +13,13 @@ export interface UsePetsState {
 }
 
 const initialPetsHookState: UsePetsState = {
-    isLoading: true,
+    isLoading: false,
     error: undefined,
     lastUpdated: undefined,
     pets: undefined,
 }
 
-interface UsePetsHook {
+export interface UsePetsHook {
     petsState: UsePetsState
 
     triggerUpdate: () => void
