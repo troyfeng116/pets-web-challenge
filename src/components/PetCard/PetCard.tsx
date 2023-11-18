@@ -5,6 +5,7 @@ import HighlightedSearchString from 'components/HighlightedSearchString'
 import { FlexColCenterContainer } from 'components/Styled/Flex'
 import { ContainedImg } from 'components/Styled/Image'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
+import { toClientDateString } from 'lib/utils/dateUtils'
 import { ClientPet } from 'models/Pet'
 
 interface PetCardProps {
@@ -32,7 +33,7 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             <ContainedImg height={190} src={url} alt="title" />
             <HighlightedSearchString searchString={searchedTitle} />
             <HighlightedSearchString searchString={searchedDescription} />
-            <p>{created}</p>
+            <p>Created {toClientDateString(created)}</p>
             <button onClick={() => downloadPetInfo(petInfo)}>Download image</button>
         </Card>
     )

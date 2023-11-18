@@ -4,6 +4,7 @@ import React from 'react'
 import { FlexRowContainer } from 'components/Styled/Flex'
 import { ContainedImg } from 'components/Styled/Image'
 import { DownloadRecord } from 'components/Wrappers/DownloadsProvider'
+import { toClientDateString } from 'lib/utils/dateUtils'
 
 const RowWithBorder = styled(FlexRowContainer)`
     border: 1px solid #000000;
@@ -24,11 +25,11 @@ export const DownloadRecordRow: React.FC<DownloadRecordRowProps> = (props) => {
             <ContainedImg src={url} height={50} width={90} />
             <div>
                 <p>
-                    {title} (Created on {new Date(created).toLocaleDateString()})
+                    {title} (Created on {toClientDateString(created)})
                 </p>
                 <p>{description}</p>
             </div>
-            <div>Downloaded at {new Date(timestampMs).toLocaleTimeString()}</div>
+            <div>Downloaded at {toClientDateString(timestampMs)}</div>
         </RowWithBorder>
     )
 }
