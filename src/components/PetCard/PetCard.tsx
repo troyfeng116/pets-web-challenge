@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import React from 'react'
 import { FlexColCenterContainer } from 'components/Styled/Flex'
+import { ContainedImg } from 'components/Styled/Image'
 import { Pet } from 'models/Pet'
 
 interface PetCardProps {
@@ -20,7 +21,7 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
 
     return (
         <Card>
-            <img width={190} src={url} alt="title" />
+            <ContainedImg height={190} src={url} alt="title" />
             <p>{title}</p>
             <p>{description}</p>
             <p>{created}</p>
