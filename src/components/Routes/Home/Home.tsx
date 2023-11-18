@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 import React, { useEffect, useState } from 'react'
 import PetCard from 'components/PetCard'
+import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
-import { downloadPetImage } from 'lib/api/downloadPetImage'
 import { OrderBy } from 'models/OrderBy'
 
 const Grid = styled.div`
@@ -16,6 +16,8 @@ export const Home: React.FC = () => {
     const { petsFetchState, triggerUpdate, searchedText, clientPets, resetToServerState, sortByName, searchPattern } =
         useClientPetsManager()
     const { isLoading, error, lastUpdated } = petsFetchState
+
+    const { downloadPetInfo } = useDownloadsContext()
 
     const [localSearchText, setLocalSearchText] = useState<string>('')
     const [selectedUrls, setSelectedUrls] = useState<Set<string>>(new Set())
@@ -58,7 +60,7 @@ export const Home: React.FC = () => {
             clientPets.forEach((pet) => {
                 const { url } = pet
                 if (selectedUrls.has(url)) {
-                    downloadPetImage(pet)
+                    downloadPetInfo(pet)
                 }
             })
         }
