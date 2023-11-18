@@ -41,36 +41,43 @@ export const PetsProvider: React.FC<PetsProviderProps> = (props) => {
     const { petsState, triggerUpdate } = usePets()
     const { isLoading, pets: serverPets } = petsState
 
-    const [localPets, setLocalPets] = useState<Pet[]>([])
+    // TODO: reducer
+    // full list of pets from server, with local ordering
+    const [localOrderedPets, setLocalOrderedPets] = useState<Pet[]>([])
+    // filtered list of pets, still respecting order of `localOrderedPets`
+    const [localFilteredPets, setLocalFilteredPets] = useState<Pet[]>([])
 
     useEffect(() => {
+        // TODO: on server update/refresh, should we override local order
         if (serverPets !== undefined) {
-            setLocalPets([...serverPets])
+            setLocalOrderedPets([...serverPets])
+            setLocalFilteredPets([...serverPets])
         }
     }, [serverPets])
 
     const resetToServerState = useCallback(() => {
         if (serverPets !== undefined) {
-            setLocalPets(serverPets)
+            setLocalOrderedPets([...serverPets])
+            setLocalFilteredPets([...serverPets])
         }
     }, [serverPets])
 
     const sortByName = useCallback(
         (orderBy: OrderBy) => {
             if (!isLoading) {
-                setLocalPets(sortPetsByName(localPets, orderBy))
+                setLocalOrderedPets(sortPetsByName(localOrderedPets, orderBy))
             }
         },
-        [isLoading, localPets],
+        [isLoading, localOrderedPets],
     )
 
     const search = useCallback(
         (pattern: string) => {
             if (!isLoading) {
-                setLocalPets(searchPets(serverPets || [], pattern))
+                setLocalFilteredPets(searchPets(localOrderedPets || [], pattern))
             }
         },
-        [isLoading, serverPets],
+        [isLoading, localOrderedPets],
     )
 
     return (
@@ -78,7 +85,7 @@ export const PetsProvider: React.FC<PetsProviderProps> = (props) => {
             value={{
                 petsState: {
                     ...petsState,
-                    pets: localPets,
+                    pets: localFilteredPets,
                 },
                 triggerUpdate: triggerUpdate,
                 resetToServerState: resetToServerState,

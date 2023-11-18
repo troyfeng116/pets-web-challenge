@@ -12,7 +12,7 @@ const Grid = styled.div`
 `
 
 export const Home: React.FC = () => {
-    const { petsState, sortByName, search } = usePetsContext()
+    const { petsState, triggerUpdate, sortByName, search } = usePetsContext()
     const { isLoading, error, lastUpdated, pets } = petsState
 
     const [searchText, setSearchText] = useState<string>('')
@@ -28,6 +28,11 @@ export const Home: React.FC = () => {
         return () => clearTimeout(timeout)
     }, [searchText, search])
 
+    const onRefreshClick = () => {
+        triggerUpdate()
+        setSearchText('')
+    }
+
     if (isLoading) {
         return <div>loading...</div>
     }
@@ -42,6 +47,7 @@ export const Home: React.FC = () => {
             <button onClick={() => sortByName(OrderBy.DESC)}>Sort desc</button>
             <input placeholder="search" onChange={handleInputChange} value={searchText} />
             {lastUpdated && <div>Last updated: {lastUpdated.toLocaleDateString()}</div>}
+            <button onClick={onRefreshClick}>Refresh</button>
             <Grid>
                 {pets.map((petInfo, idx) => {
                     return <PetCard key={idx} petInfo={petInfo} />
