@@ -13,7 +13,7 @@ const Grid = styled.div`
 `
 
 export const Home: React.FC = () => {
-    const { petsState, triggerUpdate, sortByName, search } = usePetsContext()
+    const { petsState, triggerUpdate, sortByName, search, resetToServerState } = usePetsContext()
     const { isLoading, error, lastUpdated, pets } = petsState
 
     const [searchText, setSearchText] = useState<string>('')
@@ -59,6 +59,11 @@ export const Home: React.FC = () => {
         }
     }
 
+    const onClearFiltersAndSortingClick = () => {
+        setSearchText('')
+        resetToServerState()
+    }
+
     if (isLoading) {
         return <div>loading...</div>
     }
@@ -69,9 +74,13 @@ export const Home: React.FC = () => {
 
     return (
         <div>
-            <button onClick={() => sortByName(OrderBy.ASC)}>Sort asc</button>
-            <button onClick={() => sortByName(OrderBy.DESC)}>Sort desc</button>
+            <button onClick={() => sortByName(OrderBy.ASC)}>Sort by name asc</button>
+            <button onClick={() => sortByName(OrderBy.DESC)}>Sort by name desc</button>
+            <button onClick={onClearFiltersAndSortingClick}>Clear all filters/sorting</button>
             <input placeholder="search" onChange={handleInputChange} value={searchText} />
+            <p>
+                {pets.length} result{pets.length !== 1 && 's'}
+            </p>
             {lastUpdated && <div>Last updated: {lastUpdated.toLocaleDateString()}</div>}
             <button onClick={onRefreshClick}>Refresh</button>
             <button onClick={onDownloadAllClick}>Download all ({selectedUrls.size})</button>

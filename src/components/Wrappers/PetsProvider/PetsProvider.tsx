@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { usePets, UsePetsHook } from 'hooks/usePets'
 import { searchPets } from 'lib/utils/pets/searchPets'
-import { sortPetsByName } from 'lib/utils/pets/sortPetsByName'
+import { sortPetsByName } from 'lib/utils/pets/sortPets'
 import { OrderBy } from 'models/OrderBy'
 import { Pet } from 'models/Pet'
 
