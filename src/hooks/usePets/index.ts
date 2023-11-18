@@ -2,25 +2,25 @@ import { useEffect, useReducer, useState } from 'react'
 import { API__fetchPets } from 'lib/api/fetchPets'
 import { Pet } from 'models/Pet'
 
-import { PETS_ERROR, PETS_LOADING, PETS_SUCCESS } from './actions'
+import { PETS_FETCH_ERROR, PETS_FETCH_LOADING, PETS_FETCH_SUCCESS } from './actions'
 import { reducer } from './reducer'
 
-export interface UsePetsState {
+export interface PetsFetchState {
     isLoading: boolean
     error?: string
     lastUpdated?: Date
     pets?: Pet[]
 }
 
-const initialPetsHookState: UsePetsState = {
+const initialPetsHookState: PetsFetchState = {
     isLoading: false,
     error: undefined,
     lastUpdated: undefined,
     pets: undefined,
 }
 
-export interface UsePetsHook {
-    petsState: UsePetsState
+export interface PetsFetchHook {
+    petsFetchState: PetsFetchState
 
     triggerUpdate: () => void
 }
@@ -32,10 +32,10 @@ export interface UsePetsHook {
  * - `petsState`: fetch status and payload.
  * - `triggerUpdate`: invocation triggers fresh update.
  */
-export const usePets = (): UsePetsHook => {
-    const [state, dispatch] = useReducer(reducer, initialPetsHookState)
+export const usePetsFetch = (): PetsFetchHook => {
+    const [petsFetchState, dispatch] = useReducer(reducer, initialPetsHookState)
     const [shouldTriggerUpdate, setShouldTriggerUpdate] = useState<boolean>(true)
-    const { isLoading } = state
+    const { isLoading } = petsFetchState
 
     // TODO: throttle updates? SWR?
     const triggerUpdate = () => {
@@ -46,12 +46,12 @@ export const usePets = (): UsePetsHook => {
 
     useEffect(() => {
         const fetchPets = async () => {
-            dispatch({ type: PETS_LOADING })
+            dispatch({ type: PETS_FETCH_LOADING })
             const { success, error, pets } = await API__fetchPets()
             if (!success || pets === undefined) {
-                dispatch({ type: PETS_ERROR, error: error })
+                dispatch({ type: PETS_FETCH_ERROR, error: error })
             } else {
-                dispatch({ type: PETS_SUCCESS, pets: pets })
+                dispatch({ type: PETS_FETCH_SUCCESS, pets: pets })
             }
         }
 
@@ -59,7 +59,7 @@ export const usePets = (): UsePetsHook => {
     }, [shouldTriggerUpdate])
 
     return {
-        petsState: state,
+        petsFetchState: petsFetchState,
         triggerUpdate: triggerUpdate,
     }
 }

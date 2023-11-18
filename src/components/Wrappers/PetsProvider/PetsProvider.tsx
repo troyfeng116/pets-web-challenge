@@ -1,31 +1,16 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { usePets, UsePetsHook } from 'hooks/usePets'
-import { searchPets } from 'lib/utils/pets/searchPets'
-import { sortPetsByName } from 'lib/utils/pets/sortPets'
-import { OrderBy } from 'models/OrderBy'
-import { ClientPet, Pet } from 'models/Pet'
+import React, { useContext } from 'react'
+import { PetsFetchHook, usePetsFetch } from 'hooks/usePets'
 
-export interface PetsContextState extends UsePetsHook {
-    clientPets: ClientPet[]
-
-    resetToServerState: () => void
-    sortByName: (orderBy: OrderBy) => void
-    search: (pattern: string) => void
-}
+type PetsContextState = PetsFetchHook
 
 const initialContextState: PetsContextState = {
-    petsState: {
+    petsFetchState: {
         isLoading: true,
         error: undefined,
         lastUpdated: undefined,
         pets: undefined,
     },
-    clientPets: [],
-
     triggerUpdate: () => null,
-    resetToServerState: () => null,
-    sortByName: () => null,
-    search: () => null,
 }
 
 const PetsContext: React.Context<PetsContextState> = React.createContext(initialContextState)
@@ -39,62 +24,22 @@ interface PetsProviderProps {
     children: React.ReactNode
 }
 
+/**
+ * Provides pets fetched from server to all child components.
+ * `usePetsFetch` should not be called from child components.
+ */
 export const PetsProvider: React.FC<PetsProviderProps> = (props) => {
     const { children } = props
 
-    const { petsState, triggerUpdate } = usePets()
-    const { isLoading, pets: serverPets } = petsState
-
-    // TODO: reducer
-    // full list of pets from server, with local ordering
-    const [localOrderedPets, setLocalOrderedPets] = useState<Pet[]>([])
-    // filtered list of pets, still respecting order of `localOrderedPets`
-    const [localFilteredPets, setLocalFilteredPets] = useState<ClientPet[]>([])
-
-    useEffect(() => {
-        // TODO: on server update/refresh, should we override local order
-        if (serverPets !== undefined) {
-            setLocalOrderedPets([...serverPets])
-            setLocalFilteredPets(searchPets([...serverPets], ''))
-        }
-    }, [serverPets])
-
-    const resetToServerState = useCallback(() => {
-        if (serverPets !== undefined) {
-            setLocalOrderedPets([...serverPets])
-            setLocalFilteredPets(searchPets([...serverPets], ''))
-        }
-    }, [serverPets])
-
-    const sortByName = useCallback(
-        (orderBy: OrderBy) => {
-            if (!isLoading) {
-                setLocalOrderedPets(sortPetsByName(localOrderedPets, orderBy))
-            }
-        },
-        [isLoading, localOrderedPets],
-    )
-
-    const search = useCallback(
-        (pattern: string) => {
-            if (!isLoading) {
-                setLocalFilteredPets(searchPets(localOrderedPets || [], pattern))
-            }
-        },
-        [isLoading, localOrderedPets],
-    )
+    const { petsFetchState, triggerUpdate } = usePetsFetch()
 
     return (
         <PetsContext.Provider
             value={{
-                petsState: {
-                    ...petsState,
+                petsFetchState: {
+                    ...petsFetchState,
                 },
-                clientPets: localFilteredPets,
                 triggerUpdate: triggerUpdate,
-                resetToServerState: resetToServerState,
-                sortByName: sortByName,
-                search: search,
             }}
         >
             {children}

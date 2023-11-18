@@ -1,21 +1,21 @@
 import { Pet } from 'models/Pet'
 
-export const PETS_LOADING = 'PETS_LOADING'
-export const PETS_SUCCESS = 'PETS_SUCCESS'
-export const PETS_ERROR = 'PETS_ERROR'
+export const PETS_FETCH_LOADING = 'PETS_FETCH_LOADING'
+export const PETS_FETCH_SUCCESS = 'PETS_FETCH_SUCCESS'
+export const PETS_FETCH_ERROR = 'PETS_FETCH_ERROR'
 
-interface UsePetsActionLoading {
-    type: typeof PETS_LOADING
+interface PetsFetchActionLoading {
+    type: typeof PETS_FETCH_LOADING
 }
 
-interface UsePetsActionSuccess {
-    type: typeof PETS_SUCCESS
+interface PetsFetchActionSuccess {
+    type: typeof PETS_FETCH_SUCCESS
     pets: Pet[]
 }
 
-interface UsePetsActionError {
-    type: typeof PETS_ERROR
+interface PetsFetchActionError {
+    type: typeof PETS_FETCH_ERROR
     error?: string
 }
 
-export type UsePetsAction = UsePetsActionLoading | UsePetsActionSuccess | UsePetsActionError
+export type PetsFetchAction = PetsFetchActionLoading | PetsFetchActionSuccess | PetsFetchActionError

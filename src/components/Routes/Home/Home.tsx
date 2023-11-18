@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import React, { useEffect, useState } from 'react'
 import PetCard from 'components/PetCard'
-import { usePetsContext } from 'components/Wrappers/PetsProvider'
+import { useClientPetsManager } from 'hooks/useClientPetsManager'
 import { downloadPetImage } from 'lib/api/downloadPetImage'
 import { OrderBy } from 'models/OrderBy'
 
@@ -13,27 +13,32 @@ const Grid = styled.div`
 `
 
 export const Home: React.FC = () => {
-    const { petsState, clientPets, triggerUpdate, sortByName, search, resetToServerState } = usePetsContext()
-    const { isLoading, error, lastUpdated } = petsState
+    const { petsFetchState, triggerUpdate, searchedText, clientPets, resetToServerState, sortByName, searchPattern } =
+        useClientPetsManager()
+    const { isLoading, error, lastUpdated } = petsFetchState
 
-    const [searchText, setSearchText] = useState<string>('')
+    const [localSearchText, setLocalSearchText] = useState<string>('')
     const [selectedUrls, setSelectedUrls] = useState<Set<string>>(new Set())
 
-    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setSearchText(e.target.value)
-    }
+    // in case search text overridden by manager, set local search text value
+    useEffect(() => {
+        setLocalSearchText(searchedText)
+    }, [searchedText])
 
     // throttled search
     useEffect(() => {
         const timeout = setTimeout(() => {
-            search(searchText)
+            searchPattern(localSearchText)
         }, 390)
         return () => clearTimeout(timeout)
-    }, [searchText, search])
+    }, [localSearchText, searchPattern])
+
+    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setLocalSearchText(e.target.value)
+    }
 
     const onRefreshClick = () => {
         triggerUpdate()
-        setSearchText('')
     }
 
     const onUrlSelect = (petUrl: string) => {
@@ -60,7 +65,6 @@ export const Home: React.FC = () => {
     }
 
     const onClearFiltersAndSortingClick = () => {
-        setSearchText('')
         resetToServerState()
     }
 
@@ -77,7 +81,7 @@ export const Home: React.FC = () => {
             <button onClick={() => sortByName(OrderBy.ASC)}>Sort by name asc</button>
             <button onClick={() => sortByName(OrderBy.DESC)}>Sort by name desc</button>
             <button onClick={onClearFiltersAndSortingClick}>Clear all filters/sorting</button>
-            <input placeholder="search" onChange={handleInputChange} value={searchText} />
+            <input placeholder="search" onChange={handleInputChange} value={localSearchText} />
             <p>
                 {clientPets.length} result{clientPets.length !== 1 && 's'}
             </p>

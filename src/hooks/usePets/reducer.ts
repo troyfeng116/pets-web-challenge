@@ -1,13 +1,13 @@
-import { PETS_ERROR, PETS_LOADING, PETS_SUCCESS, UsePetsAction } from './actions'
-import { UsePetsState } from '.'
+import { PETS_FETCH_ERROR, PETS_FETCH_LOADING, PETS_FETCH_SUCCESS, PetsFetchAction } from './actions'
+import { PetsFetchState } from '.'
 
-export const reducer = (state: UsePetsState, action: UsePetsAction): UsePetsState => {
+export const reducer = (state: PetsFetchState, action: PetsFetchAction): PetsFetchState => {
     switch (action.type) {
-        case PETS_LOADING:
+        case PETS_FETCH_LOADING:
             return { ...state, isLoading: true, error: undefined }
-        case PETS_SUCCESS:
+        case PETS_FETCH_SUCCESS:
             return { isLoading: false, error: undefined, pets: action.pets, lastUpdated: new Date() }
-        case PETS_ERROR:
+        case PETS_FETCH_ERROR:
             return { isLoading: false, error: action.error, pets: undefined, lastUpdated: new Date() }
     }
 }
