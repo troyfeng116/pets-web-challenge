@@ -13,8 +13,8 @@ const Grid = styled.div`
 `
 
 export const Home: React.FC = () => {
-    const { petsState, triggerUpdate, sortByName, search, resetToServerState } = usePetsContext()
-    const { isLoading, error, lastUpdated, pets } = petsState
+    const { petsState, clientPets, triggerUpdate, sortByName, search, resetToServerState } = usePetsContext()
+    const { isLoading, error, lastUpdated } = petsState
 
     const [searchText, setSearchText] = useState<string>('')
     const [selectedUrls, setSelectedUrls] = useState<Set<string>>(new Set())
@@ -49,8 +49,8 @@ export const Home: React.FC = () => {
     }
 
     const onDownloadAllClick = () => {
-        if (pets !== undefined) {
-            pets.forEach((pet) => {
+        if (clientPets !== undefined) {
+            clientPets.forEach((pet) => {
                 const { url } = pet
                 if (selectedUrls.has(url)) {
                     downloadPetImage(pet)
@@ -68,7 +68,7 @@ export const Home: React.FC = () => {
         return <div>loading...</div>
     }
 
-    if (pets === undefined) {
+    if (clientPets === undefined) {
         return <div>{error}</div>
     }
 
@@ -79,13 +79,13 @@ export const Home: React.FC = () => {
             <button onClick={onClearFiltersAndSortingClick}>Clear all filters/sorting</button>
             <input placeholder="search" onChange={handleInputChange} value={searchText} />
             <p>
-                {pets.length} result{pets.length !== 1 && 's'}
+                {clientPets.length} result{clientPets.length !== 1 && 's'}
             </p>
             {lastUpdated && <div>Last updated: {lastUpdated.toLocaleDateString()}</div>}
             <button onClick={onRefreshClick}>Refresh</button>
             <button onClick={onDownloadAllClick}>Download all ({selectedUrls.size})</button>
             <Grid>
-                {pets.map((petInfo, idx) => {
+                {clientPets.map((petInfo, idx) => {
                     const { url } = petInfo
                     return (
                         <PetCard

@@ -1,13 +1,14 @@
 import styled from 'styled-components'
 
 import React from 'react'
+import HighlightedSearchString from 'components/HighlightedSearchString'
 import { FlexColCenterContainer } from 'components/Styled/Flex'
 import { ContainedImg } from 'components/Styled/Image'
 import { downloadPetImage } from 'lib/api/downloadPetImage'
-import { Pet } from 'models/Pet'
+import { ClientPet } from 'models/Pet'
 
 interface PetCardProps {
-    petInfo: Pet
+    petInfo: ClientPet
     isSelected: boolean
 
     onSelect: (petUrl: string) => void
@@ -21,14 +22,14 @@ const Card = styled(FlexColCenterContainer)`
 
 export const PetCard: React.FC<PetCardProps> = (props) => {
     const { petInfo, isSelected, onSelect } = props
-    const { url, title, description, created } = petInfo
+    const { url, created, searchedTitle, searchedDescription } = petInfo
 
     return (
         <Card>
             <input type="checkbox" checked={isSelected} onChange={() => onSelect(url)} />
             <ContainedImg height={190} src={url} alt="title" />
-            <p>{title}</p>
-            <p>{description}</p>
+            <HighlightedSearchString searchString={searchedTitle} />
+            <HighlightedSearchString searchString={searchedDescription} />
             <p>{created}</p>
             <button onClick={() => downloadPetImage(petInfo)}>Download image</button>
         </Card>

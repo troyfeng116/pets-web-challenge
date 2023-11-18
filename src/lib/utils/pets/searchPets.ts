@@ -1,15 +1,20 @@
-import { Pet } from 'models/Pet'
+import { ClientPet, Pet } from 'models/Pet'
+import { SearchString, SearchStringToken } from 'models/SearchString'
 
 /**
  * Determine all occurrences of pattern `t` in search string `s`, using KMP.
  *
  * @param s Search string.
  * @param t Pattern for which to search.
+ * @param shouldIgnoreCase Whether to ignore casing in search.
  * @returns List of indices at which pattern `t` occurs in search string `s`.
  */
-const searchStringPattern = (s: string, t: string): number[] => {
-    s = s.toLocaleLowerCase()
-    t = t.toLocaleLowerCase()
+const searchStringPattern = (s: string, t: string, shouldIgnoreCase: boolean): number[] => {
+    if (shouldIgnoreCase) {
+        s = s.toLocaleLowerCase()
+        t = t.toLocaleLowerCase()
+    }
+
     const n = s.length,
         m = t.length
     const patternTable = new Array<number>(m).fill(0)
@@ -46,16 +51,77 @@ const searchStringPattern = (s: string, t: string): number[] => {
 }
 
 /**
+ * Perform search for pattern `pattern` in `s`, and return `SearchString` with tokenized results.
+ */
+const stringToSearchString = (s: string, pattern: string, shouldIgnoreCase = true): SearchString => {
+    if (!pattern) {
+        return {
+            originalString: s,
+            pattern: '',
+            tokens: [
+                {
+                    substr: s,
+                    isMatch: false,
+                },
+            ],
+        }
+    }
+
+    const matchIdxs = searchStringPattern(s, pattern, shouldIgnoreCase)
+    if (!matchIdxs) {
+        return {
+            originalString: s,
+            pattern: pattern,
+            tokens: [
+                {
+                    substr: s,
+                    isMatch: false,
+                },
+            ],
+        }
+    }
+
+    const tokens: SearchStringToken[] = []
+    if (matchIdxs[0] != 0) {
+        tokens.push({ substr: s.slice(0, matchIdxs[0]), isMatch: false })
+    }
+    let i = 0
+    while (i < matchIdxs.length) {
+        const curIdx = matchIdxs[i]
+        tokens.push({ substr: s.slice(curIdx, curIdx + pattern.length), isMatch: true })
+        i++
+        while (i < matchIdxs.length && matchIdxs[i] < curIdx + pattern.length) {
+            i++
+        }
+        tokens.push({ substr: s.slice(curIdx + pattern.length, matchIdxs[i]), isMatch: false })
+    }
+
+    return {
+        originalString: s,
+        pattern: pattern,
+        tokens: tokens,
+    }
+}
+
+/**
  * Filters list of pets by specified search pattern.
  * Search targets include pet title and description.
  */
-export const searchPets = (pets: Pet[], pattern: string) => {
+export const searchPets = (pets: Pet[], pattern: string): ClientPet[] => {
+    const petsWithSearchResults = pets.map((pet) => {
+        const { title, description } = pet
+        return {
+            ...pet,
+            searchedTitle: stringToSearchString(title, pattern),
+            searchedDescription: stringToSearchString(description, pattern),
+        }
+    })
+
     if (!pattern) {
-        return pets
+        return petsWithSearchResults
     }
 
-    return [...pets].filter(
-        ({ title, description }) =>
-            searchStringPattern(title, pattern).length > 0 || searchStringPattern(description, pattern).length > 0,
-    )
+    return [...petsWithSearchResults].filter(({ searchedTitle, searchedDescription }) => {
+        return searchedTitle.tokens.length > 1 || searchedDescription.tokens.length > 1
+    })
 }

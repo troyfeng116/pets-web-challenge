@@ -3,9 +3,11 @@ import { usePets, UsePetsHook } from 'hooks/usePets'
 import { searchPets } from 'lib/utils/pets/searchPets'
 import { sortPetsByName } from 'lib/utils/pets/sortPets'
 import { OrderBy } from 'models/OrderBy'
-import { Pet } from 'models/Pet'
+import { ClientPet, Pet } from 'models/Pet'
 
 export interface PetsContextState extends UsePetsHook {
+    clientPets: ClientPet[]
+
     resetToServerState: () => void
     sortByName: (orderBy: OrderBy) => void
     search: (pattern: string) => void
@@ -18,6 +20,8 @@ const initialContextState: PetsContextState = {
         lastUpdated: undefined,
         pets: undefined,
     },
+    clientPets: [],
+
     triggerUpdate: () => null,
     resetToServerState: () => null,
     sortByName: () => null,
@@ -45,20 +49,20 @@ export const PetsProvider: React.FC<PetsProviderProps> = (props) => {
     // full list of pets from server, with local ordering
     const [localOrderedPets, setLocalOrderedPets] = useState<Pet[]>([])
     // filtered list of pets, still respecting order of `localOrderedPets`
-    const [localFilteredPets, setLocalFilteredPets] = useState<Pet[]>([])
+    const [localFilteredPets, setLocalFilteredPets] = useState<ClientPet[]>([])
 
     useEffect(() => {
         // TODO: on server update/refresh, should we override local order
         if (serverPets !== undefined) {
             setLocalOrderedPets([...serverPets])
-            setLocalFilteredPets([...serverPets])
+            setLocalFilteredPets(searchPets([...serverPets], ''))
         }
     }, [serverPets])
 
     const resetToServerState = useCallback(() => {
         if (serverPets !== undefined) {
             setLocalOrderedPets([...serverPets])
-            setLocalFilteredPets([...serverPets])
+            setLocalFilteredPets(searchPets([...serverPets], ''))
         }
     }, [serverPets])
 
@@ -85,8 +89,8 @@ export const PetsProvider: React.FC<PetsProviderProps> = (props) => {
             value={{
                 petsState: {
                     ...petsState,
-                    pets: localFilteredPets,
                 },
+                clientPets: localFilteredPets,
                 triggerUpdate: triggerUpdate,
                 resetToServerState: resetToServerState,
                 sortByName: sortByName,
