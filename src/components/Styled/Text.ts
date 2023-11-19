@@ -50,3 +50,14 @@ export const StyledText = styled.p<StyledTextProps>`
     color: ${(props) => props.$color || StdColors.DARK_BLUE};
     ${(props) => props.$shouldCenter && STD_TEXT_ALIGN_CENTER}
 `
+
+interface BoundedWidthTextProps extends StyledTextProps {
+    $textWidth: number
+}
+
+export const BoundedWidthText = styled(StyledText)<BoundedWidthTextProps>`
+    width: ${(props) => props.$textWidth}px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`

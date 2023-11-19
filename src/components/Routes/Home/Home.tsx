@@ -5,6 +5,7 @@ import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 import { IoMdRefresh } from 'react-icons/io'
 import ClientPetGrid from 'components/ClientPetGrid'
 import LastUpdated from 'components/LastUpdated'
+import SelectedPetsView from 'components/SelectedPetsView'
 import { Container } from 'components/Styled'
 import { Button, SecondaryButton, TernaryButton } from 'components/Styled/Button'
 import { StdColors } from 'components/Styled/Colors'
@@ -143,6 +144,8 @@ export const Home: React.FC = () => {
                 <Button onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
                     Download selected ({selectedPets.length})
                 </Button>
+
+                <SelectedPetsView selectedPets={selectedPets} onSelectPetByUrl={onSelectPetByUrl} />
             </div>
             <ClientPetGrid
                 clientPets={clientPets}

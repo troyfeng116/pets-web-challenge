@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css, RuleSet } from 'styled-components'
 
 import { StdColors } from './Colors'
 
@@ -19,6 +19,11 @@ export interface BaseStyledProps {
 
     $color?: StdColors
     $backgroundColor?: StdColors
+
+    $width?: number | string
+    $maxWidth?: number | string
+
+    $borderRadius?: RuleSet<object>
 }
 
 export const handleBaseStyledProps = css<BaseStyledProps>`
@@ -38,6 +43,11 @@ export const handleBaseStyledProps = css<BaseStyledProps>`
 
     color: ${(props) => props.$color};
     background-color: ${(props) => props.$backgroundColor};
+
+    width: ${(props) => props.$width + (typeof props.$width === 'number' ? 'px' : '')};
+    max-width: ${(props) => props.$maxWidth + (typeof props.$maxWidth === 'number' ? 'px' : '')};
+
+    ${(props) => props.$borderRadius}
 `
 
 export const Container = styled.div<BaseStyledProps>`

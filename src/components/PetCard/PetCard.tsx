@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import React from 'react'
 import HighlightedSearchString from 'components/HighlightedSearchString'
-import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE } from 'components/Styled/Border'
+import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE, STD_BORDER_R12 } from 'components/Styled/Border'
 import { Button } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
@@ -54,7 +54,14 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             <input type="checkbox" checked={isSelected} onChange={() => onSelectPetByUrl(url)} />
             <StyledTitle searchString={searchedTitle} />
             <StyledCreated>Created {toClientDateString(created)}</StyledCreated>
-            <ContainedImg height={190} width={285} src={url} alt="title" />
+            <ContainedImg
+                $backgroundColor={StdColors.LIGHT_GRAY}
+                $borderRadius={STD_BORDER_R12}
+                height={190}
+                width={285}
+                src={url}
+                alt="title"
+            />
             <StyledDescription searchString={searchedDescription} />
             <Button onClick={() => downloadPetInfo(petInfo)}>Download image</Button>
         </Card>
