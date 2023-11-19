@@ -13,13 +13,16 @@ export interface DownloadRecord {
 interface DownloadsContextState {
     downloadedPets: DownloadRecord[]
 
-    downloadPetInfo: (petInfoToDownload: Pet) => void
+    downloadPetInfo: (
+        petInfoToDownload: Pet,
+        onDownloadCompleteCallback: (success: boolean, error?: string) => void,
+    ) => Promise<void>
     deletePetDownload: (downloadId: string) => void
 }
 
 const initialState: DownloadsContextState = {
     downloadedPets: [],
-    downloadPetInfo: () => null,
+    downloadPetInfo: () => new Promise(() => null),
     deletePetDownload: () => null,
 }
 
@@ -57,7 +60,10 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
         }
     }, [])
 
-    const downloadPetInfo = (petInfoToDownload: Pet) => {
+    const downloadPetInfo = async (
+        petInfoToDownload: Pet,
+        onDownloadCompleteCallback?: (success: boolean, error?: string) => void,
+    ) => {
         const cookieDownloadsDict: { [id: string]: DownloadRecord } = cookies[DOWNLOADS_COOKIE] || {}
         const newUid = generateRandomUid()
         const newRecord: DownloadRecord = {
@@ -73,7 +79,10 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
         setDownloads([...downloadRecords])
         setCookie(DOWNLOADS_COOKIE, JSON.stringify(cookieDownloadsDict))
 
-        downloadPetImage(petInfoToDownload)
+        const { success: downloadSuccess, error: downloadError } = await downloadPetImage(petInfoToDownload)
+        if (onDownloadCompleteCallback !== undefined) {
+            onDownloadCompleteCallback(downloadSuccess, downloadError)
+        }
     }
 
     const deletePetDownload = (downloadId: string) => {

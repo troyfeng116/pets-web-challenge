@@ -81,8 +81,15 @@ export const Home: React.FC = () => {
     }
 
     const onDownloadAllSelectedClick = () => {
-        selectedPets.forEach((pet) => {
-            downloadPetInfo(pet)
+        const selectedPetsCopy = [...selectedPets]
+        selectedPetsCopy.forEach((pet) => {
+            downloadPetInfo(pet, (downloadSuccess, downloadError) => {
+                if (downloadSuccess) {
+                    onSelectPetByUrl(pet.url)
+                } else {
+                    console.error(downloadError)
+                }
+            })
         })
     }
 

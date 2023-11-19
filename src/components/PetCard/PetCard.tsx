@@ -1,11 +1,14 @@
 import styled from 'styled-components'
 
-import React from 'react'
+import React, { useState } from 'react'
+import { IoMdDownload } from 'react-icons/io'
 import HighlightedSearchString from 'components/HighlightedSearchString'
+import { Container } from 'components/Styled'
 import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE, STD_BORDER_R12 } from 'components/Styled/Border'
 import { Button } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
+import { FlexContainer } from 'components/Styled/Flex'
 import { ContainedImg } from 'components/Styled/Image'
 import { STD_FONT_LARGE, STD_FONT_SMALL, STD_TEXT_ALIGN_CENTER, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
@@ -37,6 +40,17 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
 
     const { downloadPetInfo } = useDownloadsContext()
 
+    const [isDownloading, setIsDownloading] = useState<boolean>(false)
+
+    const onDownloadCompleteCallback = (success: boolean, error?: string) => {
+        setIsDownloading(false)
+        if (!success) {
+            console.error(error)
+        }
+    }
+
+    const onDownloadClick = () => downloadPetInfo(petInfo, onDownloadCompleteCallback)
+
     return (
         <Card
             className={className}
@@ -58,7 +72,12 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
                 alt="title"
             />
             <StyledDescription searchString={searchedDescription} />
-            <Button onClick={() => downloadPetInfo(petInfo)}>Download image</Button>
+            <Button disabled={isDownloading} onClick={onDownloadClick}>
+                <FlexContainer>
+                    <IoMdDownload />
+                    <Container $marginLeft={3}>Download image</Container>
+                </FlexContainer>
+            </Button>
         </Card>
     )
 }
