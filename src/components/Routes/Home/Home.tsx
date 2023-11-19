@@ -2,10 +2,20 @@ import styled from 'styled-components'
 
 import React, { useEffect, useState } from 'react'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
+import { IoMdRefresh } from 'react-icons/io'
+import LastUpdated from 'components/LastUpdated'
 import PetCard from 'components/PetCard'
-import { Button } from 'components/Styled/Button'
+import { Container } from 'components/Styled'
+import { Button, SecondaryButton, TernaryButton } from 'components/Styled/Button'
 import { StdColors } from 'components/Styled/Colors'
-import { FlexContainer, STD_JUSTIFY_BETWEEN } from 'components/Styled/Flex'
+import {
+    FlexContainer,
+    STD_ALIGN_CENTER,
+    STD_ALIGN_NORMAL,
+    STD_JUSTIFY_BETWEEN,
+    STD_JUSTIFY_END,
+} from 'components/Styled/Flex'
+import { StyledInput } from 'components/Styled/Input'
 import { StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
@@ -20,6 +30,11 @@ const Grid = styled.div`
 
 const GridItem = styled(PetCard)`
     max-width: 350px;
+`
+
+const StyledLastUpdated = styled(LastUpdated)`
+    color: ${StdColors.GRAY};
+    margin-right: 6px;
 `
 
 export const Home: React.FC = () => {
@@ -95,30 +110,38 @@ export const Home: React.FC = () => {
 
     return (
         <div>
-            <FlexContainer $isFlexCol={true} style={{ width: '100%' }}>
-                <FlexContainer>
-                    {/* TODO: separate updated/TimeSince component */}
-                    {lastUpdated && <div>Last updated: {lastUpdated.toLocaleDateString()}</div>}
-                    <Button onClick={onRefreshClick}>Refresh</Button>
+            <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL}>
+                <FlexContainer $alignItems={STD_ALIGN_CENTER} $justifyContent={STD_JUSTIFY_END} $marginBottom={12}>
+                    {lastUpdated && <StyledLastUpdated lastUpdate={lastUpdated} />}
+                    <TernaryButton onClick={onRefreshClick}>
+                        <FlexContainer $alignItems={STD_ALIGN_CENTER}>
+                            <IoMdRefresh />
+                        </FlexContainer>
+                    </TernaryButton>
                 </FlexContainer>
 
-                <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} style={{ width: '100%' }}>
+                <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN}>
                     <FlexContainer>
-                        <input placeholder="search" onChange={handleInputChange} value={localSearchText} />
-                        <p>
+                        <StyledInput placeholder="search" onChange={handleInputChange} value={localSearchText} />
+                        <StyledText $marginLeft={6}>
                             {clientPets.length} result{clientPets.length !== 1 && 's'}
-                        </p>
-                    </FlexContainer>
-                    <FlexContainer>
-                        <StyledText
-                            $color={orderedBy === undefined ? StdColors.GRAY : StdColors.DARK_BLUE}
-                            $clickable={true}
-                            onClick={onSortByNameClick}
-                        >
-                            Sort by name
-                            {orderedBy !== undefined && (orderedBy === OrderBy.DESC ? <FaArrowDown /> : <FaArrowUp />)}
                         </StyledText>
-                        <Button onClick={onClearFiltersAndSortingClick}>Clear all filters/sorting</Button>
+                    </FlexContainer>
+
+                    <FlexContainer>
+                        <SecondaryButton $marginRight={6} onClick={onSortByNameClick}>
+                            <FlexContainer $alignItems={STD_ALIGN_CENTER}>
+                                <Container $marginRight={orderedBy !== undefined ? 3 : 0}>Sort by name</Container>
+                                {orderedBy !== undefined &&
+                                    (orderedBy === OrderBy.DESC ? <FaArrowDown /> : <FaArrowUp />)}
+                            </FlexContainer>
+                        </SecondaryButton>
+                        <SecondaryButton
+                            onClick={onClearFiltersAndSortingClick}
+                            disabled={orderedBy === undefined && searchedText === ''}
+                        >
+                            Clear filters/sort
+                        </SecondaryButton>
                     </FlexContainer>
                 </FlexContainer>
 

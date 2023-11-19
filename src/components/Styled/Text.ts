@@ -43,18 +43,10 @@ interface StyledTextProps extends BaseStyledProps {
     $shouldCenter?: boolean
 }
 
-// TODO: move to own standard styled/handle base?
-const clickableTextCss = css`
-    &:hover {
-        color: ${StdColors.DARK_BLUE};
-    }
-`
-
 export const StyledText = styled.p<StyledTextProps>`
     ${handleBaseStyledProps}
 
     ${(props) => props.$font || STD_FONT_MEDIUM}
-    ${(props) => props.$clickable && clickableTextCss}
     color: ${(props) => props.$color || StdColors.DARK_BLUE};
     ${(props) => props.$shouldCenter && STD_TEXT_ALIGN_CENTER}
 `

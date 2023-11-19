@@ -19,17 +19,72 @@ export const Button = styled.button<ButtonProps>`
     border: none;
     outline: none;
 
-    &:hover {
+    &:hover:not([disabled]) {
         background-color: ${StdColors.MEDIUM_BLUE};
     }
 
-    &:active {
+    &:active:not([disabled]) {
         background-color: ${StdColors.LIGHT_BLUE};
     }
 
     &:disabled {
         cursor: not-allowed;
+        opacity: 0.7;
+    }
+`
+
+export const SecondaryButton = styled.button<ButtonProps>`
+    ${handleBaseStyledProps}
+
+    padding: ${(props) => props.$padding || '6px 12px'};
+    ${STD_FONT_MEDIUM}
+    ${STD_BORDER_R6}
+    background-color: ${StdColors.WHITE};
+    color: ${StdColors.MEDIUM_BLUE};
+    cursor: pointer;
+    border: 1px solid ${StdColors.MEDIUM_BLUE};
+    outline: none;
+    box-sizing: border-box;
+
+    &:hover:not([disabled]) {
+        background-color: ${StdColors.MEDIUM_BLUE};
+        color: ${StdColors.WHITE};
+    }
+
+    &:active:not([disabled]) {
+        background-color: ${StdColors.LIGHT_BLUE};
+        border: 1px solid ${StdColors.LIGHT_BLUE};
+        color: ${StdColors.WHITE};
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+`
+
+export const TernaryButton = styled.button<ButtonProps>`
+    ${handleBaseStyledProps}
+
+    padding: ${(props) => props.$padding || '3px 6px'};
+    ${STD_FONT_MEDIUM}
+    ${STD_BORDER_R6}
+    background-color: ${StdColors.WHITE};
+    color: ${StdColors.GRAY};
+    cursor: pointer;
+    border: 1px solid ${StdColors.GRAY};
+    outline: none;
+
+    &:hover:not([disabled]) {
+        background-color: ${StdColors.GRAY};
+        color: ${StdColors.WHITE};
+    }
+
+    &:active:not([disabled]) {
+        background-color: ${StdColors.DARK_GRAY};
+    }
+
+    &:disabled {
+        cursor: not-allowed;
         opacity: 0.5;
-        background-color: ${StdColors.DARK_BLUE};
     }
 `
