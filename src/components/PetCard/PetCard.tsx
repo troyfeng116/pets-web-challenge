@@ -7,7 +7,7 @@ import { Button } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
 import { ContainedImg } from 'components/Styled/Image'
-import { STD_FONT_LARGE, STD_FONT_SMALL, STD_TEXT_ALIGN_CENTER } from 'components/Styled/Text'
+import { STD_FONT_LARGE, STD_FONT_SMALL, STD_TEXT_ALIGN_CENTER, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
 import { ClientPet } from 'models/Pet'
@@ -16,13 +16,6 @@ const StyledTitle = styled(HighlightedSearchString)`
     ${STD_FONT_LARGE}
     ${STD_TEXT_ALIGN_CENTER}
     margin-bottom: 6px;
-`
-
-const StyledCreated = styled.p`
-    ${STD_FONT_SMALL}
-    ${STD_TEXT_ALIGN_CENTER}
-    color: ${StdColors.GRAY};
-    margin-bottom: 12px;
 `
 
 const StyledDescription = styled(HighlightedSearchString)`
@@ -53,7 +46,9 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
         >
             <input type="checkbox" checked={isSelected} onChange={() => onSelectPetByUrl(url)} />
             <StyledTitle searchString={searchedTitle} />
-            <StyledCreated>Created {toClientDateString(created)}</StyledCreated>
+            <StyledText $font={STD_FONT_SMALL} $shouldCenter={true} $color={StdColors.GRAY} $marginBottom={6}>
+                Created {toClientDateString(created)}
+            </StyledText>
             <ContainedImg
                 $backgroundColor={StdColors.LIGHT_GRAY}
                 $borderRadius={STD_BORDER_R12}
