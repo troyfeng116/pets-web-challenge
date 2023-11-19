@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-export const FlexRowContainer = styled.div`
+import { BaseStyledProps } from '.'
+
+export const FlexRowContainer = styled.div<BaseStyledProps>`
     display: flex;
     align-items: center;
 `
