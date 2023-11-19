@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import React, { useEffect, useState } from 'react'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 import { IoMdRefresh } from 'react-icons/io'
+import ClientPetGrid from 'components/ClientPetGrid'
 import LastUpdated from 'components/LastUpdated'
-import PetCard from 'components/PetCard'
 import { Container } from 'components/Styled'
 import { Button, SecondaryButton, TernaryButton } from 'components/Styled/Button'
 import { StdColors } from 'components/Styled/Colors'
@@ -20,17 +20,6 @@ import { StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
 import { OrderBy } from 'models/OrderBy'
-
-// TODO: move to separate component
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 30px;
-`
-
-const GridItem = styled(PetCard)`
-    max-width: 350px;
-`
 
 const StyledLastUpdated = styled(LastUpdated)`
     color: ${StdColors.GRAY};
@@ -144,7 +133,9 @@ export const Home: React.FC = () => {
                         </SecondaryButton>
                     </FlexContainer>
                 </FlexContainer>
+            </FlexContainer>
 
+            <div>
                 <Button onClick={selectAllClientPets}>Select all ({clientPets.length})</Button>
                 <Button onClick={clearAllSelected} disabled={selectedPets.length === 0}>
                     Clear selection
@@ -152,20 +143,12 @@ export const Home: React.FC = () => {
                 <Button onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
                     Download selected ({selectedPets.length})
                 </Button>
-            </FlexContainer>
-            <Grid>
-                {clientPets.map((petInfo, idx) => {
-                    const { url } = petInfo
-                    return (
-                        <GridItem
-                            key={idx}
-                            petInfo={petInfo}
-                            isSelected={isPetUrlSelected(url)}
-                            onSelect={onSelectPetByUrl}
-                        />
-                    )
-                })}
-            </Grid>
+            </div>
+            <ClientPetGrid
+                clientPets={clientPets}
+                onSelectPetByUrl={onSelectPetByUrl}
+                isPetUrlSelected={isPetUrlSelected}
+            />
         </div>
     )
 }

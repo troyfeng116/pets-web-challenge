@@ -35,11 +35,11 @@ interface PetCardProps {
     isSelected: boolean
     className?: string
 
-    onSelect: (petUrl: string) => void
+    onSelectPetByUrl: (petUrl: string) => void
 }
 
 export const PetCard: React.FC<PetCardProps> = (props) => {
-    const { petInfo, isSelected, className = '', onSelect } = props
+    const { petInfo, isSelected, className = '', onSelectPetByUrl } = props
     const { url, created, searchedTitle, searchedDescription } = petInfo
 
     const { downloadPetInfo } = useDownloadsContext()
@@ -51,7 +51,7 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}
             $isFlexCol={true}
         >
-            <input type="checkbox" checked={isSelected} onChange={() => onSelect(url)} />
+            <input type="checkbox" checked={isSelected} onChange={() => onSelectPetByUrl(url)} />
             <StyledTitle searchString={searchedTitle} />
             <StyledCreated>Created {toClientDateString(created)}</StyledCreated>
             <ContainedImg height={190} width={285} src={url} alt="title" />
