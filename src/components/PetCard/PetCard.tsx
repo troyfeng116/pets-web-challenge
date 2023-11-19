@@ -30,22 +30,23 @@ const StyledDescription = styled(HighlightedSearchString)`
 interface PetCardProps {
     petInfo: ClientPet
     isSelected: boolean
+    className?: string
 
     onSelect: (petUrl: string) => void
 }
 
 export const PetCard: React.FC<PetCardProps> = (props) => {
-    const { petInfo, isSelected, onSelect } = props
+    const { petInfo, isSelected, className = '', onSelect } = props
     const { url, created, searchedTitle, searchedDescription } = petInfo
 
     const { downloadPetInfo } = useDownloadsContext()
 
     return (
-        <Card $padding="12px" $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}>
+        <Card className={className} $padding="12px 24px" $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}>
             <input type="checkbox" checked={isSelected} onChange={() => onSelect(url)} />
             <StyledTitle searchString={searchedTitle} />
             <StyledCreated>Created {toClientDateString(created)}</StyledCreated>
-            <ContainedImg height={190} src={url} alt="title" />
+            <ContainedImg height={190} width={285} src={url} alt="title" />
             <StyledDescription searchString={searchedDescription} />
             <Button onClick={() => downloadPetInfo(petInfo)}>Download image</Button>
         </Card>

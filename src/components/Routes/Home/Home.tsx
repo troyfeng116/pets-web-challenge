@@ -9,7 +9,11 @@ import { OrderBy } from 'models/OrderBy'
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 12px;
+    grid-gap: 30px;
+`
+
+const GridItem = styled(PetCard)`
+    max-width: 350px;
 `
 
 export const Home: React.FC = () => {
@@ -94,7 +98,7 @@ export const Home: React.FC = () => {
                 {clientPets.map((petInfo, idx) => {
                     const { url } = petInfo
                     return (
-                        <PetCard
+                        <GridItem
                             key={idx}
                             petInfo={petInfo}
                             isSelected={selectedUrls.has(url)}
