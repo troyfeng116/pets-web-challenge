@@ -29,16 +29,22 @@ export const Home: React.FC = () => {
         orderedBy,
         searchedText,
         clientPets,
-        resetToServerState,
+        selectedPets,
+
+        resetOrderingAndFilters,
         sortByName,
         searchPattern,
+
+        isPetUrlSelected,
+        onSelectPetByUrl,
+        selectAllClientPets,
+        clearAllSelected,
     } = useClientPetsManager()
     const { isLoading, error, lastUpdated } = petsFetchState
 
     const { downloadPetInfo } = useDownloadsContext()
 
     const [localSearchText, setLocalSearchText] = useState<string>('')
-    const [selectedUrls, setSelectedUrls] = useState<Set<string>>(new Set())
 
     // in case search text overridden by manager, set local search text value
     useEffect(() => {
@@ -69,31 +75,14 @@ export const Home: React.FC = () => {
         triggerUpdate()
     }
 
-    const onUrlSelect = (petUrl: string) => {
-        setSelectedUrls((prevSelectedUrls) => {
-            const updatedSelectedUrls = new Set(prevSelectedUrls)
-            if (prevSelectedUrls.has(petUrl)) {
-                updatedSelectedUrls.delete(petUrl)
-            } else {
-                updatedSelectedUrls.add(petUrl)
-            }
-            return updatedSelectedUrls
+    const onDownloadAllSelectedClick = () => {
+        selectedPets.forEach((pet) => {
+            downloadPetInfo(pet)
         })
     }
 
-    const onDownloadAllClick = () => {
-        if (clientPets !== undefined) {
-            clientPets.forEach((pet) => {
-                const { url } = pet
-                if (selectedUrls.has(url)) {
-                    downloadPetInfo(pet)
-                }
-            })
-        }
-    }
-
     const onClearFiltersAndSortingClick = () => {
-        resetToServerState()
+        resetOrderingAndFilters()
     }
 
     if (isLoading) {
@@ -133,8 +122,12 @@ export const Home: React.FC = () => {
                     </FlexContainer>
                 </FlexContainer>
 
-                <Button onClick={onDownloadAllClick} disabled={selectedUrls.size === 0}>
-                    Download selected ({selectedUrls.size})
+                <Button onClick={selectAllClientPets}>Select all ({clientPets.length})</Button>
+                <Button onClick={clearAllSelected} disabled={selectedPets.length === 0}>
+                    Clear selection
+                </Button>
+                <Button onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
+                    Download selected ({selectedPets.length})
                 </Button>
             </FlexContainer>
             <Grid>
@@ -144,8 +137,8 @@ export const Home: React.FC = () => {
                         <GridItem
                             key={idx}
                             petInfo={petInfo}
-                            isSelected={selectedUrls.has(url)}
-                            onSelect={onUrlSelect}
+                            isSelected={isPetUrlSelected(url)}
+                            onSelect={onSelectPetByUrl}
                         />
                     )
                 })}
