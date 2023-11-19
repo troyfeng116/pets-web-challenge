@@ -1,20 +1,30 @@
-import styled from 'styled-components'
+import styled, { css, RuleSet } from 'styled-components'
 
-import { BaseStyledProps } from '.'
+import { BaseStyledProps, handleBaseStyledProps } from '.'
 
-export const FlexRowContainer = styled.div<BaseStyledProps>`
-    display: flex;
+export const STD_ALIGN_CENTER = css`
     align-items: center;
 `
 
-export const FlexColContainer = styled(FlexRowContainer)`
-    flex-direction: column;
-`
-
-export const FlexRowCenterContainer = styled(FlexRowContainer)`
+export const STD_JUSTIFY_CENTER = css`
     justify-content: center;
 `
 
-export const FlexColCenterContainer = styled(FlexColContainer)`
-    justify-content: center;
+export const STD_JUSTIFY_BETWEEN = css`
+    justify-content: space-between;
+`
+
+interface FlexProps extends BaseStyledProps {
+    $isFlexCol?: boolean
+    $alignItems?: RuleSet<object>
+    $justifyContent?: RuleSet<object>
+}
+
+export const FlexContainer = styled.div<FlexProps>`
+    ${handleBaseStyledProps}
+
+    display: flex;
+    flex-direction: ${(props) => (props.$isFlexCol ? 'column' : 'row')};
+    ${(props) => props.$alignItems || STD_ALIGN_CENTER};
+    ${(props) => props.$justifyContent};
 `

@@ -1,11 +1,17 @@
 import styled from 'styled-components'
 
 import React, { useEffect, useState } from 'react'
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 import PetCard from 'components/PetCard'
+import { Button } from 'components/Styled/Button'
+import { StdColors } from 'components/Styled/Colors'
+import { FlexContainer, STD_JUSTIFY_BETWEEN } from 'components/Styled/Flex'
+import { StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
 import { OrderBy } from 'models/OrderBy'
 
+// TODO: move to separate component
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -17,8 +23,16 @@ const GridItem = styled(PetCard)`
 `
 
 export const Home: React.FC = () => {
-    const { petsFetchState, triggerUpdate, searchedText, clientPets, resetToServerState, sortByName, searchPattern } =
-        useClientPetsManager()
+    const {
+        petsFetchState,
+        triggerUpdate,
+        orderedBy,
+        searchedText,
+        clientPets,
+        resetToServerState,
+        sortByName,
+        searchPattern,
+    } = useClientPetsManager()
     const { isLoading, error, lastUpdated } = petsFetchState
 
     const { downloadPetInfo } = useDownloadsContext()
@@ -41,6 +55,14 @@ export const Home: React.FC = () => {
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setLocalSearchText(e.target.value)
+    }
+
+    const onSortByNameClick = () => {
+        if (orderedBy === undefined || orderedBy === OrderBy.DESC) {
+            sortByName(OrderBy.ASC)
+        } else {
+            sortByName(OrderBy.DESC)
+        }
     }
 
     const onRefreshClick = () => {
@@ -84,16 +106,37 @@ export const Home: React.FC = () => {
 
     return (
         <div>
-            <button onClick={() => sortByName(OrderBy.ASC)}>Sort by name asc</button>
-            <button onClick={() => sortByName(OrderBy.DESC)}>Sort by name desc</button>
-            <button onClick={onClearFiltersAndSortingClick}>Clear all filters/sorting</button>
-            <input placeholder="search" onChange={handleInputChange} value={localSearchText} />
-            <p>
-                {clientPets.length} result{clientPets.length !== 1 && 's'}
-            </p>
-            {lastUpdated && <div>Last updated: {lastUpdated.toLocaleDateString()}</div>}
-            <button onClick={onRefreshClick}>Refresh</button>
-            <button onClick={onDownloadAllClick}>Download all ({selectedUrls.size})</button>
+            <FlexContainer $isFlexCol={true} style={{ width: '100%' }}>
+                <FlexContainer>
+                    {/* TODO: separate updated/TimeSince component */}
+                    {lastUpdated && <div>Last updated: {lastUpdated.toLocaleDateString()}</div>}
+                    <Button onClick={onRefreshClick}>Refresh</Button>
+                </FlexContainer>
+
+                <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} style={{ width: '100%' }}>
+                    <FlexContainer>
+                        <input placeholder="search" onChange={handleInputChange} value={localSearchText} />
+                        <p>
+                            {clientPets.length} result{clientPets.length !== 1 && 's'}
+                        </p>
+                    </FlexContainer>
+                    <FlexContainer>
+                        <StyledText
+                            $color={orderedBy === undefined ? StdColors.GRAY : StdColors.DARK_BLUE}
+                            $clickable={true}
+                            onClick={onSortByNameClick}
+                        >
+                            Sort by name
+                            {orderedBy !== undefined && (orderedBy === OrderBy.DESC ? <FaArrowDown /> : <FaArrowUp />)}
+                        </StyledText>
+                        <Button onClick={onClearFiltersAndSortingClick}>Clear all filters/sorting</Button>
+                    </FlexContainer>
+                </FlexContainer>
+
+                <Button onClick={onDownloadAllClick} disabled={selectedUrls.size === 0}>
+                    Download selected ({selectedUrls.size})
+                </Button>
+            </FlexContainer>
             <Grid>
                 {clientPets.map((petInfo, idx) => {
                     const { url } = petInfo

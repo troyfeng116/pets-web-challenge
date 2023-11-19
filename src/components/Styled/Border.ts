@@ -13,6 +13,7 @@ export const STD_BORDER_R6 = css`
 export const CARD_BORDER_BASE = css`
     border: 2px solid ${StdColors.GRAY};
 `
+
 export const CARD_BORDER_ACTIVE = css`
     border: 4px solid ${StdColors.GREEN};
 `

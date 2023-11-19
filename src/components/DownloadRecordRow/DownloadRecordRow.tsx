@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
 import React from 'react'
-import { FlexRowContainer } from 'components/Styled/Flex'
+import { FlexContainer } from 'components/Styled/Flex'
 import { ContainedImg } from 'components/Styled/Image'
 import { DownloadRecord } from 'components/Wrappers/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
 
-const RowWithBorder = styled(FlexRowContainer)`
+const RowWithBorder = styled(FlexContainer)`
     border: 1px solid #000000;
     padding: 6px;
 `

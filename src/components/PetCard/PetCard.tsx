@@ -7,23 +7,26 @@ import { Button } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
 import { ContainedImg } from 'components/Styled/Image'
-import { STD_FONT_LARGE, STD_FONT_SMALL } from 'components/Styled/Text'
+import { STD_FONT_LARGE, STD_FONT_SMALL, STD_TEXT_ALIGN_CENTER } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
 import { ClientPet } from 'models/Pet'
 
 const StyledTitle = styled(HighlightedSearchString)`
     ${STD_FONT_LARGE}
+    ${STD_TEXT_ALIGN_CENTER}
     margin-bottom: 6px;
 `
 
 const StyledCreated = styled.p`
     ${STD_FONT_SMALL}
+    ${STD_TEXT_ALIGN_CENTER}
     color: ${StdColors.GRAY};
     margin-bottom: 12px;
 `
 
 const StyledDescription = styled(HighlightedSearchString)`
+    ${STD_TEXT_ALIGN_CENTER}
     margin: 12px 0px;
 `
 
@@ -42,7 +45,12 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
     const { downloadPetInfo } = useDownloadsContext()
 
     return (
-        <Card className={className} $padding="12px 24px" $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}>
+        <Card
+            className={className}
+            $padding="12px 24px"
+            $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}
+            $isFlexCol={true}
+        >
             <input type="checkbox" checked={isSelected} onChange={() => onSelect(url)} />
             <StyledTitle searchString={searchedTitle} />
             <StyledCreated>Created {toClientDateString(created)}</StyledCreated>

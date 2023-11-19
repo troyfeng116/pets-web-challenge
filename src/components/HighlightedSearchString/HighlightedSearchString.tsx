@@ -1,4 +1,5 @@
 import React from 'react'
+import { StyledText } from 'components/Styled/Text'
 import { SearchString } from 'models/SearchString'
 
 interface HighlightedSearchStringProps {
@@ -13,7 +14,7 @@ export const HighlightedSearchString: React.FC<HighlightedSearchStringProps> = (
     } = props
 
     return (
-        <p className={className}>
+        <StyledText className={className}>
             {tokens.map(({ substr, isMatch }, idx) => {
                 return (
                     <span style={{ backgroundColor: isMatch ? 'orange' : undefined }} key={idx}>
@@ -21,6 +22,6 @@ export const HighlightedSearchString: React.FC<HighlightedSearchStringProps> = (
                     </span>
                 )
             })}
-        </p>
+        </StyledText>
     )
 }

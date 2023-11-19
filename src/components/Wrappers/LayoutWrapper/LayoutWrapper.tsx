@@ -2,7 +2,7 @@ import React from 'react'
 import { CookiesProvider } from 'react-cookie'
 import { Outlet } from 'react-router-dom'
 import NavBar from 'components/NavBar'
-import { FlexColContainer } from 'components/Styled/Flex'
+import { FlexContainer } from 'components/Styled/Flex'
 import { GlobalStyle } from 'components/Styled/Global'
 
 import DownloadsProvider from '../DownloadsProvider'
@@ -16,9 +16,9 @@ export const LayoutWrapper: React.FC = () => {
                 <DownloadsProvider>
                     <PetsProvider>
                         <NavBar />
-                        <FlexColContainer as="main">
+                        <FlexContainer $isFlexCol={true} as="main">
                             <Outlet />
-                        </FlexColContainer>
+                        </FlexContainer>
                     </PetsProvider>
                 </DownloadsProvider>
             </CookiesProvider>
