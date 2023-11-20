@@ -1,12 +1,10 @@
 import React from 'react'
 import { IoMdClose } from 'react-icons/io'
-import { STD_BORDER_R6 } from 'components/Styled/Border'
+import PetImage from 'components/PetImage'
 import { SecondaryButton } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
-import { STD_CURSOR_ZOOM } from 'components/Styled/Cursor'
 import { FlexContainer, STD_JUSTIFY_END } from 'components/Styled/Flex'
-import { ContainedImg } from 'components/Styled/Image'
 import { BoundedWidthText } from 'components/Styled/Text'
 import { Pet } from 'models/Pet'
 
@@ -29,15 +27,7 @@ export const SelectedPetCard: React.FC<SelectedPetCardProps> = (props) => {
                     </FlexContainer>
                 </SecondaryButton>
             </FlexContainer>
-            <ContainedImg
-                $backgroundColor={StdColors.LIGHT_GRAY}
-                $borderRadius={STD_BORDER_R6}
-                $cursor={STD_CURSOR_ZOOM}
-                src={url}
-                height={66}
-                width={100}
-                onClick={() => onClickForModal(selectedPet)}
-            />
+            <PetImage url={url} alt={title} height={66} width={100} onClick={() => onClickForModal(selectedPet)} />
             <BoundedWidthText $marginTop={6} $textWidth={100} $shouldCenter={true}>
                 {title}
             </BoundedWidthText>

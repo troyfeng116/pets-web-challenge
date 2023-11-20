@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import { IoMdDownload } from 'react-icons/io'
 import Checkbox from 'components/Checkbox'
 import HighlightedSearchString from 'components/HighlightedSearchString'
+import PetImage from 'components/PetImage'
 import { Container } from 'components/Styled'
-import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE, STD_BORDER_R12 } from 'components/Styled/Border'
+import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE } from 'components/Styled/Border'
 import { PrimaryButton } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
-import { STD_CURSOR_ZOOM } from 'components/Styled/Cursor'
 import { FlexContainer, STD_JUSTIFY_BETWEEN } from 'components/Styled/Flex'
-import { ContainedImg } from 'components/Styled/Image'
 import { STD_FONT_LARGE, STD_FONT_SMALL, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
@@ -26,7 +25,7 @@ interface PetCardProps {
 
 export const PetCard: React.FC<PetCardProps> = (props) => {
     const { petInfo, isSelected, className = '', onSelectPetByUrl, onClickForModal } = props
-    const { url, created, searchedTitle, searchedDescription } = petInfo
+    const { url, created, title, searchedTitle, searchedDescription } = petInfo
 
     const { downloadPetInfo } = useDownloadsContext()
 
@@ -57,15 +56,12 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
                 <StyledText $font={STD_FONT_SMALL} $shouldCenter={true} $color={StdColors.GRAY} $marginBottom={6}>
                     Created {toClientDateString(created)}
                 </StyledText>
-                <ContainedImg
-                    $backgroundColor={StdColors.LIGHT_GRAY}
-                    $borderRadius={STD_BORDER_R12}
+                <PetImage
+                    url={url}
+                    alt={title}
                     $marginBottom={12}
-                    $cursor={STD_CURSOR_ZOOM}
                     height={190}
                     width={285}
-                    src={url}
-                    alt="title"
                     onClick={() => onClickForModal(petInfo)}
                 />
                 <StyledText as="div" $shouldCenter={true}>
