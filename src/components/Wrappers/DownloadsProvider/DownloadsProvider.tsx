@@ -4,6 +4,8 @@ import { downloadPetImage } from 'lib/api/downloadPetImage'
 import { generateRandomUid } from 'lib/utils/randomUid'
 import { Pet } from 'models/Pet'
 
+const DOWNLOADS_COOKIE = 'DOWNLOADS_COOKIE'
+
 export interface DownloadRecord {
     petInfo: Pet
     timestampMs: number
@@ -30,8 +32,6 @@ const DownloadsContext = React.createContext<DownloadsContextState>(initialState
 
 export const useDownloadsContext = () => useContext<DownloadsContextState>(DownloadsContext)
 
-const DOWNLOADS_COOKIE = 'DOWNLOADS_COOKIE'
-
 interface DownloadsProviderProps {
     children: React.ReactNode
 }
@@ -49,14 +49,10 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
     useEffect(() => {
         const cookieDownloadsValue = cookies[DOWNLOADS_COOKIE]
         if (cookieDownloadsValue !== undefined) {
-            const cookieDownloadsDict = cookieDownloadsValue as { [id: string]: DownloadRecord }
-            const downloadRecords: DownloadRecord[] = []
-            for (const id in cookieDownloadsDict) {
-                downloadRecords.push(cookieDownloadsDict[id])
-            }
-            setDownloads([...downloadRecords])
+            const cookieDownloadsList = cookieDownloadsValue as DownloadRecord[]
+            setDownloads([...cookieDownloadsList])
         } else {
-            setCookie(DOWNLOADS_COOKIE, JSON.stringify({}))
+            setCookie(DOWNLOADS_COOKIE, JSON.stringify([]))
         }
     }, [])
 
@@ -64,37 +60,35 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
         petInfoToDownload: Pet,
         onDownloadCompleteCallback?: (success: boolean, error?: string) => void,
     ) => {
-        const cookieDownloadsDict: { [id: string]: DownloadRecord } = cookies[DOWNLOADS_COOKIE] || {}
         const newUid = generateRandomUid()
         const newRecord: DownloadRecord = {
             petInfo: petInfoToDownload,
             timestampMs: new Date().getTime(),
             downloadId: newUid,
         }
-        cookieDownloadsDict[newUid] = newRecord
-        const downloadRecords: DownloadRecord[] = []
-        for (const id in cookieDownloadsDict) {
-            downloadRecords.push(cookieDownloadsDict[id])
-        }
-        setDownloads([...downloadRecords])
-        setCookie(DOWNLOADS_COOKIE, JSON.stringify(cookieDownloadsDict))
 
         const { success: downloadSuccess, error: downloadError } = await downloadPetImage(petInfoToDownload)
+
+        setDownloads((prevDownloads) => {
+            const updatedDownloads = [newRecord, ...prevDownloads]
+            setCookie(DOWNLOADS_COOKIE, JSON.stringify(updatedDownloads))
+            return updatedDownloads
+        })
         if (onDownloadCompleteCallback !== undefined) {
             onDownloadCompleteCallback(downloadSuccess, downloadError)
         }
     }
 
-    const deletePetDownload = (downloadId: string) => {
-        const cookieDownloadsDict: { [id: string]: DownloadRecord } = JSON.parse(cookies[DOWNLOADS_COOKIE]) || {}
-        if (downloadId in cookieDownloadsDict) {
-            delete cookieDownloadsDict[downloadId]
-            const downloadRecords: DownloadRecord[] = []
-            for (const id in cookieDownloadsDict) {
-                downloadRecords.push(cookieDownloadsDict[id])
+    const deletePetDownload = (downloadIdToDelete: string) => {
+        for (let i = 0; i < downloads.length; i++) {
+            const { downloadId } = downloads[i]
+            if (downloadId === downloadIdToDelete) {
+                setDownloads((prevDownloads) => {
+                    const updatedDownloads = [...prevDownloads].splice(i, 1)
+                    setCookie(DOWNLOADS_COOKIE, JSON.stringify(updatedDownloads))
+                    return updatedDownloads
+                })
             }
-            setDownloads([...downloadRecords])
-            setCookie(DOWNLOADS_COOKIE, JSON.stringify(cookieDownloadsDict))
         }
     }
 

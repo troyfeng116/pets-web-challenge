@@ -10,7 +10,7 @@ export const Downloads: React.FC = () => {
     return (
         <Section $marginTop={24}>
             <StyledText as="h2" $font={STD_FONT_H2} $marginBottom={18}>
-                My recent downloads
+                My recent downloads ({downloadedPets.length})
             </StyledText>
             <div>
                 {downloadedPets.map((downloadRecord, idx) => {
