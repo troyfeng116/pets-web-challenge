@@ -23,7 +23,7 @@ export const PetImage: React.FC<PetImageProps> = (props) => {
     return (
         <ContainedImg
             {...props}
-            $backgroundColor={StdColors.LIGHT_GRAY}
+            $backgroundColor={StdColors.LIGHT_BLUE}
             $border={STD_BORDER_MEDIUM_BLUE}
             $borderRadius={STD_BORDER_R12}
             $cursor={onClick !== undefined ? STD_CURSOR_ZOOM : undefined}

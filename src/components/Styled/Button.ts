@@ -26,8 +26,8 @@ export const PrimaryButton = styled.button<ButtonProps>`
     }
 
     &:active:not([disabled]) {
-        background-color: ${StdColors.LIGHT_BLUE};
-        border: 1px solid ${StdColors.LIGHT_BLUE};
+        background-color: ${StdColors.DARK_BLUE};
+        border: 1px solid ${StdColors.DARK_BLUE};
         color: ${StdColors.WHITE};
     }
 

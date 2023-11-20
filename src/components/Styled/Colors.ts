@@ -6,7 +6,7 @@ export enum StdColors {
 
     DARK_BLUE = '#1c3763',
     MEDIUM_BLUE = '#2582C0',
-    LIGHT_BLUE = '#719FDC',
+    LIGHT_BLUE = '#F2FAFF',
 
     GREEN = '#7FDC71',
     RED = '#DC718A',
