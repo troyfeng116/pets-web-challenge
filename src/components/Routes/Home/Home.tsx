@@ -120,7 +120,7 @@ export const Home: React.FC = () => {
                 <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN}>
                     <FlexContainer>
                         <StyledInput placeholder="search" onChange={handleInputChange} value={localSearchText} />
-                        <StyledText $marginLeft={6}>
+                        <StyledText $color={StdColors.GRAY} $marginLeft={6}>
                             {clientPets.length} result{clientPets.length !== 1 && 's'}
                         </StyledText>
                     </FlexContainer>

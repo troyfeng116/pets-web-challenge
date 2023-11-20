@@ -15,11 +15,12 @@ export const StyledInput = styled.input<StyledInputProps>`
 
     padding: 6px 12px;
     ${STD_BORDER_R6}
-    border: 2px solid ${StdColors.GRAY};
+    border: none;
+    outline: 1px solid ${StdColors.MEDIUM_BLUE};
     ${(props) => props.$font || STD_FONT_MEDIUM}
     color: ${(props) => props.$color || StdColors.DARK_BLUE};
 
     &:focus {
-        border: 2px solid ${StdColors.MEDIUM_BLUE};
+        outline: 2px solid ${StdColors.MEDIUM_BLUE};
     }
 `

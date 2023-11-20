@@ -11,9 +11,9 @@ export const STD_BORDER_R6 = css`
 `
 
 export const CARD_BORDER_BASE = css`
-    border: 2px solid ${StdColors.GRAY};
+    border: 2px solid ${StdColors.MEDIUM_BLUE};
 `
 
 export const CARD_BORDER_ACTIVE = css`
-    border: 4px solid ${StdColors.GREEN};
+    border: 6px solid ${StdColors.MEDIUM_BLUE};
 `
