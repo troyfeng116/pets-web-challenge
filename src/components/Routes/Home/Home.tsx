@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import React, { useEffect, useState } from 'react'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
@@ -21,7 +21,7 @@ import {
     STD_JUSTIFY_END,
 } from 'components/Styled/Flex'
 import { StyledInput } from 'components/Styled/Input'
-import { MOBILE } from 'components/Styled/Responsive'
+import { MOBILE, TABLET } from 'components/Styled/Responsive'
 import { Section } from 'components/Styled/Section'
 import { STD_FONT_LARGE, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
@@ -118,7 +118,7 @@ export const Home: React.FC = () => {
             <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL} $width="100%" $maxWidth={1100}>
                 <FlexContainer $alignItems={STD_ALIGN_CENTER} $justifyContent={STD_JUSTIFY_END} $marginBottom={12}>
                     {lastUpdated && <StyledLastUpdated lastUpdate={lastUpdated} />}
-                    <SecondaryButton onClick={onRefreshClick}>
+                    <SecondaryButton onClick={onRefreshClick} disabled={isLoading}>
                         <FlexContainer $alignItems={STD_ALIGN_CENTER}>
                             <IoMdRefresh />
                         </FlexContainer>
@@ -126,8 +126,21 @@ export const Home: React.FC = () => {
                 </FlexContainer>
 
                 <Section $marginBottom={60}>
-                    <ResponsiveFlexContainer $cutoff={MOBILE} $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={12}>
-                        <StyledText $font={STD_FONT_LARGE}>My selected pets</StyledText>
+                    <ResponsiveFlexContainer
+                        $cutoff={MOBILE}
+                        $cutoffRules={STD_ALIGN_NORMAL}
+                        $justifyContent={STD_JUSTIFY_BETWEEN}
+                        $marginBottom={12}
+                    >
+                        <StyledText
+                            $font={STD_FONT_LARGE}
+                            $cutoff={MOBILE}
+                            $cutoffRules={css`
+                                margin-bottom: 12px;
+                            `}
+                        >
+                            My selected pets
+                        </StyledText>
                         <FlexContainer>
                             <PrimaryButton
                                 $marginRight={6}
@@ -157,8 +170,18 @@ export const Home: React.FC = () => {
                 </Section>
 
                 <Section>
-                    <ResponsiveFlexContainer $cutoff={MOBILE} $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={36}>
-                        <FlexContainer>
+                    <ResponsiveFlexContainer
+                        $cutoff={TABLET}
+                        $cutoffRules={STD_ALIGN_NORMAL}
+                        $justifyContent={STD_JUSTIFY_BETWEEN}
+                        $marginBottom={36}
+                    >
+                        <FlexContainer
+                            $cutoff={TABLET}
+                            $cutoffRules={css`
+                                margin-bottom: 12px;
+                            `}
+                        >
                             <StyledInput
                                 $width={240}
                                 placeholder="search"

@@ -59,11 +59,7 @@ export const FlexContainer = styled.div<FlexProps>`
     ${(props) => props.$flexWrap};
 `
 
-interface ResponsiveFlexProps extends FlexProps {
-    $cutoff: string
-}
-
-export const ResponsiveFlexContainer = styled(FlexContainer)<ResponsiveFlexProps>`
+export const ResponsiveFlexContainer = styled(FlexContainer)`
     flex-direction: 'row';
 
     @media only screen and (max-width: ${(props) => props.$cutoff}) {

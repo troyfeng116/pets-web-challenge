@@ -26,6 +26,9 @@ export interface BaseStyledProps {
     $height?: number | string
 
     $borderRadius?: RuleSet<object>
+
+    $cutoff?: string
+    $cutoffRules?: RuleSet<object>
 }
 
 export const handleBaseStyledProps = css<BaseStyledProps>`
@@ -52,6 +55,10 @@ export const handleBaseStyledProps = css<BaseStyledProps>`
     height: ${(props) => props.$height + (typeof props.$height === 'number' ? 'px' : '')};
 
     ${(props) => props.$borderRadius}
+
+    @media only screen and (max-width: ${(props) => props.$cutoff}) {
+        ${(props) => props.$cutoffRules}
+    }
 `
 
 export const Container = styled.div<BaseStyledProps>`
