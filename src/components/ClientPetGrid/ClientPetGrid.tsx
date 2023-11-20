@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import React from 'react'
 import PetCard from 'components/PetCard'
 import { DESKTOP, TABLET } from 'components/Styled/Responsive'
-import { ClientPet } from 'models/Pet'
+import { ClientPet, Pet } from 'models/Pet'
 
 const Grid = styled.div`
     display: grid;
@@ -33,10 +33,11 @@ interface ClientPetGridProps {
     clientPets: ClientPet[]
     isPetUrlSelected: (petUrl: string) => boolean
     onSelectPetByUrl: (petUrl: string) => void
+    onClickForModal: (petInfo: Pet) => void
 }
 
 export const ClientPetGrid: React.FC<ClientPetGridProps> = (props) => {
-    const { clientPets, isPetUrlSelected, onSelectPetByUrl } = props
+    const { clientPets, isPetUrlSelected, onSelectPetByUrl, onClickForModal } = props
 
     return (
         <Grid>
@@ -48,6 +49,7 @@ export const ClientPetGrid: React.FC<ClientPetGridProps> = (props) => {
                         petInfo={petInfo}
                         isSelected={isPetUrlSelected(url)}
                         onSelectPetByUrl={onSelectPetByUrl}
+                        onClickForModal={onClickForModal}
                     />
                 )
             })}

@@ -6,6 +6,8 @@ import { IoMdDownload } from 'react-icons/io'
 import { IoMdRefresh } from 'react-icons/io'
 import ClientPetGrid from 'components/ClientPetGrid'
 import LastUpdated from 'components/LastUpdated'
+import Modal from 'components/Modal'
+import PetModalCard from 'components/Modal/PetModalCard'
 import SelectedPetsView from 'components/SelectedPetsView'
 import { Container } from 'components/Styled'
 import { PrimaryButton, SecondaryButton } from 'components/Styled/Button'
@@ -25,6 +27,7 @@ import { STD_FONT_LARGE, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
 import { OrderBy } from 'models/OrderBy'
+import { Pet } from 'models/Pet'
 
 const StyledLastUpdated = styled(LastUpdated)`
     color: ${StdColors.GRAY};
@@ -54,6 +57,7 @@ export const Home: React.FC = () => {
     const { downloadPetInfo } = useDownloadsContext()
 
     const [localSearchText, setLocalSearchText] = useState<string>('')
+    const [modalPetInfo, setModalPetInfo] = useState<Pet>()
 
     // in case search text overridden by manager, set local search text value
     useEffect(() => {
@@ -101,6 +105,14 @@ export const Home: React.FC = () => {
         resetOrderingAndFilters()
     }
 
+    const onClickForModal = (pet: Pet) => {
+        setModalPetInfo(pet)
+    }
+
+    const onModalClose = () => {
+        setModalPetInfo(undefined)
+    }
+
     return (
         <FlexContainer $isFlexCol={true}>
             <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL} $width="100%" $maxWidth={1100}>
@@ -136,7 +148,11 @@ export const Home: React.FC = () => {
                     {selectedPets.length === 0 ? (
                         <StyledText $color={StdColors.GRAY}>Select pets from below to download</StyledText>
                     ) : (
-                        <SelectedPetsView selectedPets={selectedPets} onSelectPetByUrl={onSelectPetByUrl} />
+                        <SelectedPetsView
+                            selectedPets={selectedPets}
+                            onSelectPetByUrl={onSelectPetByUrl}
+                            onClickForModal={onClickForModal}
+                        />
                     )}
                 </Section>
 
@@ -179,11 +195,18 @@ export const Home: React.FC = () => {
                                 clientPets={clientPets}
                                 onSelectPetByUrl={onSelectPetByUrl}
                                 isPetUrlSelected={isPetUrlSelected}
+                                onClickForModal={onClickForModal}
                             />
                         )}
                     </FlexContainer>
                 </Section>
             </FlexContainer>
+
+            {modalPetInfo !== undefined && (
+                <Modal onClose={onModalClose}>
+                    <PetModalCard petInfo={modalPetInfo} />
+                </Modal>
+            )}
         </FlexContainer>
     )
 }

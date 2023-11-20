@@ -7,12 +7,13 @@ import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE, STD_BORDER_R12 } from 'components
 import { PrimaryButton } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
+import { STD_CURSOR_ZOOM } from 'components/Styled/Cursor'
 import { FlexContainer, STD_JUSTIFY_BETWEEN } from 'components/Styled/Flex'
 import { ContainedImg } from 'components/Styled/Image'
 import { STD_FONT_LARGE, STD_FONT_SMALL, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
-import { ClientPet } from 'models/Pet'
+import { ClientPet, Pet } from 'models/Pet'
 
 interface PetCardProps {
     petInfo: ClientPet
@@ -20,10 +21,11 @@ interface PetCardProps {
     className?: string
 
     onSelectPetByUrl: (petUrl: string) => void
+    onClickForModal: (petInfo: Pet) => void
 }
 
 export const PetCard: React.FC<PetCardProps> = (props) => {
-    const { petInfo, isSelected, className = '', onSelectPetByUrl } = props
+    const { petInfo, isSelected, className = '', onSelectPetByUrl, onClickForModal } = props
     const { url, created, searchedTitle, searchedDescription } = petInfo
 
     const { downloadPetInfo } = useDownloadsContext()
@@ -46,25 +48,30 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             $backgroundColor={StdColors.WHITE}
             $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}
             $isFlexCol={true}
+            $justifyContent={STD_JUSTIFY_BETWEEN}
         >
-            <StyledText as="div" $font={STD_FONT_LARGE} $shouldCenter={true} $marginBottom={6}>
-                <HighlightedSearchString searchString={searchedTitle} />
-            </StyledText>
-            <StyledText $font={STD_FONT_SMALL} $shouldCenter={true} $color={StdColors.GRAY} $marginBottom={6}>
-                Created {toClientDateString(created)}
-            </StyledText>
-            <ContainedImg
-                $backgroundColor={StdColors.LIGHT_GRAY}
-                $borderRadius={STD_BORDER_R12}
-                $marginBottom={12}
-                height={190}
-                width={285}
-                src={url}
-                alt="title"
-            />
-            <StyledText as="div" $shouldCenter={true} $marginBottom={24}>
-                <HighlightedSearchString searchString={searchedDescription} />
-            </StyledText>
+            <FlexContainer $isFlexCol={true} $marginBottom={24}>
+                <StyledText as="div" $font={STD_FONT_LARGE} $shouldCenter={true} $marginBottom={6}>
+                    <HighlightedSearchString searchString={searchedTitle} />
+                </StyledText>
+                <StyledText $font={STD_FONT_SMALL} $shouldCenter={true} $color={StdColors.GRAY} $marginBottom={6}>
+                    Created {toClientDateString(created)}
+                </StyledText>
+                <ContainedImg
+                    $backgroundColor={StdColors.LIGHT_GRAY}
+                    $borderRadius={STD_BORDER_R12}
+                    $marginBottom={12}
+                    $cursor={STD_CURSOR_ZOOM}
+                    height={190}
+                    width={285}
+                    src={url}
+                    alt="title"
+                    onClick={() => onClickForModal(petInfo)}
+                />
+                <StyledText as="div" $shouldCenter={true}>
+                    <HighlightedSearchString searchString={searchedDescription} />
+                </StyledText>
+            </FlexContainer>
 
             <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} $width="100%">
                 <PrimaryButton disabled={isDownloading} onClick={onDownloadClick}>

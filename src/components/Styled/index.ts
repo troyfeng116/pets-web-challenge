@@ -16,6 +16,7 @@ export interface BaseStyledProps {
     $marginLeft?: number
 
     $clickable?: boolean
+    $cursor?: RuleSet<object>
 
     $color?: StdColors
     $backgroundColor?: StdColors
@@ -41,6 +42,7 @@ export const handleBaseStyledProps = css<BaseStyledProps>`
     margin-left: ${(props) => props.$marginLeft + 'px'};
 
     cursor: ${(props) => props.$clickable && 'pointer'};
+    ${(props) => props.$cursor}
 
     color: ${(props) => props.$color};
     background-color: ${(props) => props.$backgroundColor};
