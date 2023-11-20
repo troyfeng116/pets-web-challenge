@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { STD_BORDER_R6 } from 'components/Styled/Border'
-import { TernaryButton } from 'components/Styled/Button'
+import { SecondaryButton } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
 import { FlexContainer, STD_JUSTIFY_END } from 'components/Styled/Flex'
@@ -21,11 +21,11 @@ export const SelectedPetCard: React.FC<SelectedPetCardProps> = (props) => {
     return (
         <Card $isFlexCol={true} $padding="6px 12px 12px 12px" $margin="6px 3px" $backgroundColor={StdColors.WHITE}>
             <FlexContainer $width="100%" $justifyContent={STD_JUSTIFY_END} $marginBottom={6}>
-                <TernaryButton $padding="0px" onClick={() => onSelectPetByUrl(url)}>
+                <SecondaryButton $padding="0px" onClick={() => onSelectPetByUrl(url)}>
                     <FlexContainer>
                         <IoMdClose />
                     </FlexContainer>
-                </TernaryButton>
+                </SecondaryButton>
             </FlexContainer>
             <ContainedImg
                 $backgroundColor={StdColors.LIGHT_GRAY}

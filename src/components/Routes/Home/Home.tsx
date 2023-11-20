@@ -8,7 +8,7 @@ import ClientPetGrid from 'components/ClientPetGrid'
 import LastUpdated from 'components/LastUpdated'
 import SelectedPetsView from 'components/SelectedPetsView'
 import { Container } from 'components/Styled'
-import { Button, SecondaryButton, TernaryButton } from 'components/Styled/Button'
+import { PrimaryButton, SecondaryButton } from 'components/Styled/Button'
 import { StdColors } from 'components/Styled/Colors'
 import {
     FlexContainer,
@@ -111,26 +111,26 @@ export const Home: React.FC = () => {
         <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL}>
             <FlexContainer $alignItems={STD_ALIGN_CENTER} $justifyContent={STD_JUSTIFY_END} $marginBottom={12}>
                 {lastUpdated && <StyledLastUpdated lastUpdate={lastUpdated} />}
-                <TernaryButton onClick={onRefreshClick}>
+                <SecondaryButton onClick={onRefreshClick}>
                     <FlexContainer $alignItems={STD_ALIGN_CENTER}>
                         <IoMdRefresh />
                     </FlexContainer>
-                </TernaryButton>
+                </SecondaryButton>
             </FlexContainer>
 
             <Section $marginBottom={60}>
                 <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={12}>
                     <StyledText $font={STD_FONT_LARGE}>My selected pets</StyledText>
                     <FlexContainer>
-                        <Button $marginRight={6} onClick={clearAllSelected} disabled={selectedPets.length === 0}>
+                        <PrimaryButton $marginRight={6} onClick={clearAllSelected} disabled={selectedPets.length === 0}>
                             Clear selection
-                        </Button>
-                        <Button onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
+                        </PrimaryButton>
+                        <PrimaryButton onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
                             <FlexContainer>
                                 <IoMdDownload />
                                 <Container $marginLeft={3}>Download selected ({selectedPets.length})</Container>
                             </FlexContainer>
-                        </Button>
+                        </PrimaryButton>
                     </FlexContainer>
                 </FlexContainer>
 
@@ -150,25 +150,25 @@ export const Home: React.FC = () => {
                             onChange={handleInputChange}
                             value={localSearchText}
                         />
-                        <Button $marginLeft={6} onClick={selectAllClientPets}>
+                        <PrimaryButton $marginLeft={6} onClick={selectAllClientPets}>
                             Select all ({clientPets.length})
-                        </Button>
+                        </PrimaryButton>
                     </FlexContainer>
 
                     <FlexContainer>
-                        <SecondaryButton $marginRight={6} onClick={onSortByNameClick}>
+                        <PrimaryButton $marginRight={6} onClick={onSortByNameClick}>
                             <FlexContainer $alignItems={STD_ALIGN_CENTER}>
                                 <Container $marginRight={orderedBy !== undefined ? 3 : 0}>Sort by name</Container>
                                 {orderedBy !== undefined &&
                                     (orderedBy === OrderBy.DESC ? <FaArrowDown /> : <FaArrowUp />)}
                             </FlexContainer>
-                        </SecondaryButton>
-                        <SecondaryButton
+                        </PrimaryButton>
+                        <PrimaryButton
                             onClick={onClearFiltersAndSortingClick}
                             disabled={orderedBy === undefined && searchedText === ''}
                         >
                             Clear filters/sort
-                        </SecondaryButton>
+                        </PrimaryButton>
                     </FlexContainer>
                 </FlexContainer>
 

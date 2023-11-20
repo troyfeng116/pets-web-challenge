@@ -4,7 +4,7 @@ import Checkbox from 'components/Checkbox'
 import HighlightedSearchString from 'components/HighlightedSearchString'
 import { Container } from 'components/Styled'
 import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE, STD_BORDER_R12 } from 'components/Styled/Border'
-import { Button } from 'components/Styled/Button'
+import { PrimaryButton } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
 import { FlexContainer, STD_JUSTIFY_BETWEEN } from 'components/Styled/Flex'
@@ -67,12 +67,12 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             </StyledText>
 
             <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} $width="100%">
-                <Button disabled={isDownloading} onClick={onDownloadClick}>
+                <PrimaryButton disabled={isDownloading} onClick={onDownloadClick}>
                     <FlexContainer>
                         <IoMdDownload />
                         <Container $marginLeft={3}>Download image</Container>
                     </FlexContainer>
-                </Button>
+                </PrimaryButton>
                 <Checkbox label="Select" isChecked={isSelected} onChecked={() => onSelectPetByUrl(url)} />
             </FlexContainer>
         </Card>
