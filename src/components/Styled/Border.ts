@@ -10,6 +10,10 @@ export const STD_BORDER_R6 = css`
     border-radius: 6px;
 `
 
+export const STD_BORDER_MEDIUM_BLUE = css`
+    border: 1px solid ${StdColors.MEDIUM_BLUE};
+`
+
 export const CARD_BORDER_BASE = css`
     border: 2px solid ${StdColors.MEDIUM_BLUE};
 `

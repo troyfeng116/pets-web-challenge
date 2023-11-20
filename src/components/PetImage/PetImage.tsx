@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseStyledProps } from 'components/Styled'
-import { STD_BORDER_R12 } from 'components/Styled/Border'
+import { STD_BORDER_MEDIUM_BLUE, STD_BORDER_R12 } from 'components/Styled/Border'
 import { StdColors } from 'components/Styled/Colors'
 import { STD_CURSOR_ZOOM } from 'components/Styled/Cursor'
 import { ContainedImg } from 'components/Styled/Image'
@@ -24,6 +24,7 @@ export const PetImage: React.FC<PetImageProps> = (props) => {
         <ContainedImg
             {...props}
             $backgroundColor={StdColors.LIGHT_GRAY}
+            $border={STD_BORDER_MEDIUM_BLUE}
             $borderRadius={STD_BORDER_R12}
             $cursor={onClick !== undefined ? STD_CURSOR_ZOOM : undefined}
             height={height}

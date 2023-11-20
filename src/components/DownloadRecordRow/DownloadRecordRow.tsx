@@ -1,7 +1,7 @@
 import React from 'react'
+import PetImage from 'components/PetImage'
 import { StdColors } from 'components/Styled/Colors'
 import { FlexContainer } from 'components/Styled/Flex'
-import { ContainedImg } from 'components/Styled/Image'
 import { DownloadRecord } from 'components/Wrappers/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
 
@@ -16,7 +16,7 @@ export const DownloadRecordRow: React.FC<DownloadRecordRowProps> = (props) => {
 
     return (
         <FlexContainer $padding="6px" $backgroundColor={StdColors.WHITE}>
-            <ContainedImg src={url} height={50} width={90} />
+            <PetImage url={url} alt={title} height={50} width={90} />
             <div>
                 <p>
                     {title} (Created on {toClientDateString(created)})

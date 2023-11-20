@@ -1,8 +1,7 @@
 import React from 'react'
-import { STD_BORDER_R12 } from 'components/Styled/Border'
+import PetImage from 'components/PetImage'
 import { StdColors } from 'components/Styled/Colors'
 import { FlexContainer } from 'components/Styled/Flex'
-import { ContainedImg } from 'components/Styled/Image'
 import { STD_FONT_LARGE, STD_FONT_SMALL, StyledText } from 'components/Styled/Text'
 import { toClientDateString } from 'lib/utils/dateUtils'
 import { Pet } from 'models/Pet'
@@ -23,15 +22,7 @@ export const PetModalCard: React.FC<PetModalCardProps> = (props) => {
             <StyledText $font={STD_FONT_SMALL} $shouldCenter={true} $color={StdColors.GRAY} $marginBottom={6}>
                 Created {toClientDateString(created)}
             </StyledText>
-            <ContainedImg
-                $backgroundColor={StdColors.LIGHT_GRAY}
-                $borderRadius={STD_BORDER_R12}
-                $marginBottom={12}
-                height={400}
-                width={600}
-                src={url}
-                alt="title"
-            />
+            <PetImage $marginBottom={12} height={400} width={600} url={url} alt="title" />
             <StyledText as="div" $shouldCenter={true}>
                 {description}
             </StyledText>
