@@ -6,7 +6,7 @@ import FeaturedPetCard from 'components/FeaturedPet'
 import { Container } from 'components/Styled'
 import { FlexContainer } from 'components/Styled/Flex'
 import { Section } from 'components/Styled/Section'
-import { STD_FONT_H2, STD_FONT_LARGE, StyledText } from 'components/Styled/Text'
+import { STD_FONT_LARGE, StyledText } from 'components/Styled/Text'
 
 const StyledLi = styled.li`
     width: fit-content;
@@ -41,11 +41,11 @@ export const About: React.FC = () => {
 
             <Section $padding="18px 30px">
                 <FlexContainer $isFlexCol={true}>
-                    <StyledText $font={STD_FONT_H2} $shouldCenter={true} $marginBottom={12}>
-                        Today&rsquo;s featured pet
+                    <StyledText $font={STD_FONT_LARGE} $shouldCenter={true} $marginBottom={12}>
+                        Today&rsquo;s featured pet...
                     </StyledText>
                     <Container $marginBottom={24}>
-                        <NavLink to="/">See all</NavLink>
+                        <NavLink to="/">See all pets</NavLink>
                     </Container>
 
                     <FeaturedPetCard />

@@ -1,3 +1,2 @@
-import { DownloadRecord, DownloadsProvider } from './DownloadsProvider'
+import { DownloadsProvider } from './DownloadsProvider'
 export default DownloadsProvider
-export type { DownloadRecord }

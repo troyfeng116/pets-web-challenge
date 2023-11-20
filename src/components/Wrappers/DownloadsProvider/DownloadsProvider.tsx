@@ -3,17 +3,12 @@ import { useCookies } from 'react-cookie'
 import { downloadPetImage } from 'lib/api/downloadPetImage'
 import { generateRandomUid } from 'lib/utils/randomUid'
 import { Pet } from 'models/Pet'
+import { PetDownloadRecord } from 'models/PetDownloadRecord'
 
 const DOWNLOADS_COOKIE = 'DOWNLOADS_COOKIE'
 
-export interface DownloadRecord {
-    petInfo: Pet
-    timestampMs: number
-    downloadId: string
-}
-
 interface DownloadsContextState {
-    downloadedPets: DownloadRecord[]
+    downloadedPets: PetDownloadRecord[]
 
     downloadPetInfo: (
         petInfoToDownload: Pet,
@@ -44,12 +39,12 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
     const { children } = props
 
     const [cookies, setCookie] = useCookies()
-    const [downloads, setDownloads] = useState<DownloadRecord[]>([])
+    const [downloads, setDownloads] = useState<PetDownloadRecord[]>([])
 
     useEffect(() => {
         const cookieDownloadsValue = cookies[DOWNLOADS_COOKIE]
         if (cookieDownloadsValue !== undefined) {
-            const cookieDownloadsList = cookieDownloadsValue as DownloadRecord[]
+            const cookieDownloadsList = cookieDownloadsValue as PetDownloadRecord[]
             setDownloads([...cookieDownloadsList])
         } else {
             setCookie(DOWNLOADS_COOKIE, JSON.stringify([]))
@@ -61,7 +56,7 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
         onDownloadCompleteCallback?: (success: boolean, error?: string) => void,
     ) => {
         const newUid = generateRandomUid()
-        const newRecord: DownloadRecord = {
+        const newRecord: PetDownloadRecord = {
             petInfo: petInfoToDownload,
             timestampMs: new Date().getTime(),
             downloadId: newUid,

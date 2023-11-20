@@ -2,11 +2,11 @@ import React from 'react'
 import PetImage from 'components/PetImage'
 import { StdColors } from 'components/Styled/Colors'
 import { FlexContainer } from 'components/Styled/Flex'
-import { DownloadRecord } from 'components/Wrappers/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
+import { PetDownloadRecord } from 'models/PetDownloadRecord'
 
 interface DownloadRecordRowProps {
-    downloadRecord: DownloadRecord
+    downloadRecord: PetDownloadRecord
 }
 
 export const DownloadRecordRow: React.FC<DownloadRecordRowProps> = (props) => {
