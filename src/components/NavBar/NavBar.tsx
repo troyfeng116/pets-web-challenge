@@ -27,8 +27,8 @@ const StyledNavLink = styled(NavLink)`
         color: ${StdColors.DARK_BLUE};
     }
 
-    &:active {
-        color: ${StdColors.GRAY};
+    &.active {
+        color: ${StdColors.DARK_BLUE};
         font-weight: bold;
     }
 
