@@ -58,3 +58,15 @@ export const FlexContainer = styled.div<FlexProps>`
     ${(props) => props.$justifyContent};
     ${(props) => props.$flexWrap};
 `
+
+interface ResponsiveFlexProps extends FlexProps {
+    $cutoff: string
+}
+
+export const ResponsiveFlexContainer = styled(FlexContainer)<ResponsiveFlexProps>`
+    flex-direction: 'row';
+
+    @media only screen and (max-width: ${(props) => props.$cutoff}) {
+        flex-direction: column;
+    }
+`

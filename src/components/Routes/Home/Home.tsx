@@ -12,12 +12,14 @@ import { PrimaryButton, SecondaryButton } from 'components/Styled/Button'
 import { StdColors } from 'components/Styled/Colors'
 import {
     FlexContainer,
+    ResponsiveFlexContainer,
     STD_ALIGN_CENTER,
     STD_ALIGN_NORMAL,
     STD_JUSTIFY_BETWEEN,
     STD_JUSTIFY_END,
 } from 'components/Styled/Flex'
 import { StyledInput } from 'components/Styled/Input'
+import { MOBILE } from 'components/Styled/Responsive'
 import { Section } from 'components/Styled/Section'
 import { STD_FONT_LARGE, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
@@ -119,7 +121,7 @@ export const Home: React.FC = () => {
             </FlexContainer>
 
             <Section $marginBottom={60}>
-                <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={12}>
+                <ResponsiveFlexContainer $cutoff={MOBILE} $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={12}>
                     <StyledText $font={STD_FONT_LARGE}>My selected pets</StyledText>
                     <FlexContainer>
                         <PrimaryButton $marginRight={6} onClick={clearAllSelected} disabled={selectedPets.length === 0}>
@@ -132,7 +134,7 @@ export const Home: React.FC = () => {
                             </FlexContainer>
                         </PrimaryButton>
                     </FlexContainer>
-                </FlexContainer>
+                </ResponsiveFlexContainer>
 
                 {selectedPets.length === 0 ? (
                     <StyledText $color={StdColors.GRAY}>Select pets from below to download</StyledText>
@@ -142,7 +144,7 @@ export const Home: React.FC = () => {
             </Section>
 
             <Section>
-                <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={36}>
+                <ResponsiveFlexContainer $cutoff={MOBILE} $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={36}>
                     <FlexContainer>
                         <StyledInput
                             $width={240}
@@ -170,7 +172,7 @@ export const Home: React.FC = () => {
                             Clear filters/sort
                         </PrimaryButton>
                     </FlexContainer>
-                </FlexContainer>
+                </ResponsiveFlexContainer>
 
                 <FlexContainer $isFlexCol={true}>
                     <ClientPetGrid

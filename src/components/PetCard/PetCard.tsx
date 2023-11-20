@@ -47,7 +47,7 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}
             $isFlexCol={true}
         >
-            <StyledText $font={STD_FONT_LARGE} $shouldCenter={true} $marginBottom={6}>
+            <StyledText as="div" $font={STD_FONT_LARGE} $shouldCenter={true} $marginBottom={6}>
                 <HighlightedSearchString searchString={searchedTitle} />
             </StyledText>
             <StyledText $font={STD_FONT_SMALL} $shouldCenter={true} $color={StdColors.GRAY} $marginBottom={6}>
@@ -62,7 +62,7 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
                 src={url}
                 alt="title"
             />
-            <StyledText $shouldCenter={true} $marginBottom={24}>
+            <StyledText as="div" $shouldCenter={true} $marginBottom={24}>
                 <HighlightedSearchString searchString={searchedDescription} />
             </StyledText>
 
