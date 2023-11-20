@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import React, { useEffect, useState } from 'react'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
+import { IoMdDownload } from 'react-icons/io'
 import { IoMdRefresh } from 'react-icons/io'
 import ClientPetGrid from 'components/ClientPetGrid'
 import LastUpdated from 'components/LastUpdated'
@@ -17,7 +18,8 @@ import {
     STD_JUSTIFY_END,
 } from 'components/Styled/Flex'
 import { StyledInput } from 'components/Styled/Input'
-import { StyledText } from 'components/Styled/Text'
+import { Section } from 'components/Styled/Section'
+import { STD_FONT_LARGE, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
 import { OrderBy } from 'models/OrderBy'
@@ -106,23 +108,51 @@ export const Home: React.FC = () => {
     }
 
     return (
-        <div>
-            <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL}>
-                <FlexContainer $alignItems={STD_ALIGN_CENTER} $justifyContent={STD_JUSTIFY_END} $marginBottom={12}>
-                    {lastUpdated && <StyledLastUpdated lastUpdate={lastUpdated} />}
-                    <TernaryButton onClick={onRefreshClick}>
-                        <FlexContainer $alignItems={STD_ALIGN_CENTER}>
-                            <IoMdRefresh />
-                        </FlexContainer>
-                    </TernaryButton>
+        <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL}>
+            <FlexContainer $alignItems={STD_ALIGN_CENTER} $justifyContent={STD_JUSTIFY_END} $marginBottom={12}>
+                {lastUpdated && <StyledLastUpdated lastUpdate={lastUpdated} />}
+                <TernaryButton onClick={onRefreshClick}>
+                    <FlexContainer $alignItems={STD_ALIGN_CENTER}>
+                        <IoMdRefresh />
+                    </FlexContainer>
+                </TernaryButton>
+            </FlexContainer>
+
+            <Section $marginBottom={60}>
+                <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={12}>
+                    <StyledText $font={STD_FONT_LARGE}>My selected pets</StyledText>
+                    <FlexContainer>
+                        <Button $marginRight={6} onClick={clearAllSelected} disabled={selectedPets.length === 0}>
+                            Clear selection
+                        </Button>
+                        <Button onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
+                            <FlexContainer>
+                                <IoMdDownload />
+                                <Container $marginLeft={3}>Download selected ({selectedPets.length})</Container>
+                            </FlexContainer>
+                        </Button>
+                    </FlexContainer>
                 </FlexContainer>
 
-                <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN}>
+                {selectedPets.length === 0 ? (
+                    <StyledText $color={StdColors.GRAY}>Select pets from below to download</StyledText>
+                ) : (
+                    <SelectedPetsView selectedPets={selectedPets} onSelectPetByUrl={onSelectPetByUrl} />
+                )}
+            </Section>
+
+            <Section>
+                <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={36}>
                     <FlexContainer>
-                        <StyledInput placeholder="search" onChange={handleInputChange} value={localSearchText} />
-                        <StyledText $color={StdColors.GRAY} $marginLeft={6}>
-                            {clientPets.length} result{clientPets.length !== 1 && 's'}
-                        </StyledText>
+                        <StyledInput
+                            $width={240}
+                            placeholder="search"
+                            onChange={handleInputChange}
+                            value={localSearchText}
+                        />
+                        <Button $marginLeft={6} onClick={selectAllClientPets}>
+                            Select all ({clientPets.length})
+                        </Button>
                     </FlexContainer>
 
                     <FlexContainer>
@@ -141,24 +171,15 @@ export const Home: React.FC = () => {
                         </SecondaryButton>
                     </FlexContainer>
                 </FlexContainer>
-            </FlexContainer>
 
-            <div>
-                <Button onClick={selectAllClientPets}>Select all ({clientPets.length})</Button>
-                <Button onClick={clearAllSelected} disabled={selectedPets.length === 0}>
-                    Clear selection
-                </Button>
-                <Button onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
-                    Download selected ({selectedPets.length})
-                </Button>
-
-                <SelectedPetsView selectedPets={selectedPets} onSelectPetByUrl={onSelectPetByUrl} />
-            </div>
-            <ClientPetGrid
-                clientPets={clientPets}
-                onSelectPetByUrl={onSelectPetByUrl}
-                isPetUrlSelected={isPetUrlSelected}
-            />
-        </div>
+                <FlexContainer $isFlexCol={true}>
+                    <ClientPetGrid
+                        clientPets={clientPets}
+                        onSelectPetByUrl={onSelectPetByUrl}
+                        isPetUrlSelected={isPetUrlSelected}
+                    />
+                </FlexContainer>
+            </Section>
+        </FlexContainer>
     )
 }

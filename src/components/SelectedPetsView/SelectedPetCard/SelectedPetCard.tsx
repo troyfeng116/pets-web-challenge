@@ -31,7 +31,7 @@ export const SelectedPetCard: React.FC<SelectedPetCardProps> = (props) => {
                 $backgroundColor={StdColors.LIGHT_GRAY}
                 $borderRadius={STD_BORDER_R6}
                 src={url}
-                height={90}
+                height={66}
                 width={100}
             />
             <BoundedWidthText $marginTop={6} $textWidth={100} $shouldCenter={true}>

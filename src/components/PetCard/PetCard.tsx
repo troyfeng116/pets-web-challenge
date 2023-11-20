@@ -54,7 +54,8 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
     return (
         <Card
             className={className}
-            $padding="12px 24px"
+            $padding="12px 18px"
+            $backgroundColor={StdColors.WHITE}
             $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}
             $isFlexCol={true}
         >

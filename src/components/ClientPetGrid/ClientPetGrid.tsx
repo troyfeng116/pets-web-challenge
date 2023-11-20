@@ -2,21 +2,22 @@ import styled from 'styled-components'
 
 import React from 'react'
 import PetCard from 'components/PetCard'
+import { DESKTOP, TABLET } from 'components/Styled/Responsive'
 import { ClientPet } from 'models/Pet'
 
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 30px;
-    grid-row-gap: 48px;
+    grid-column-gap: 24px;
+    grid-row-gap: 36px;
 
-    @media only screen and (max-width: 1200px) {
+    @media only screen and (max-width: ${DESKTOP}) {
         & {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: ${TABLET}) {
         & {
             grid-template-columns: 1fr;
         }
@@ -24,14 +25,8 @@ const Grid = styled.div`
 `
 
 const GridItem = styled(PetCard)`
-    max-width: 360px;
-    width: 360px;
-
-    @media only screen and (max-width: 1200px) {
-        & {
-            width: 320px;
-        }
-    }
+    max-width: 330px;
+    width: 330px;
 `
 
 interface ClientPetGridProps {
