@@ -49,7 +49,7 @@ export const Home: React.FC = () => {
         selectAllClientPets,
         clearAllSelected,
     } = useClientPetsManager()
-    const { isLoading, error, lastUpdated } = petsFetchState
+    const { isLoading, lastUpdated } = petsFetchState
 
     const { downloadPetInfo } = useDownloadsContext()
 
@@ -101,87 +101,89 @@ export const Home: React.FC = () => {
         resetOrderingAndFilters()
     }
 
-    if (isLoading) {
-        return <div>loading...</div>
-    }
-
-    if (clientPets === undefined) {
-        return <div>{error}</div>
-    }
-
     return (
-        <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL}>
-            <FlexContainer $alignItems={STD_ALIGN_CENTER} $justifyContent={STD_JUSTIFY_END} $marginBottom={12}>
-                {lastUpdated && <StyledLastUpdated lastUpdate={lastUpdated} />}
-                <SecondaryButton onClick={onRefreshClick}>
-                    <FlexContainer $alignItems={STD_ALIGN_CENTER}>
-                        <IoMdRefresh />
-                    </FlexContainer>
-                </SecondaryButton>
-            </FlexContainer>
-
-            <Section $marginBottom={60}>
-                <ResponsiveFlexContainer $cutoff={MOBILE} $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={12}>
-                    <StyledText $font={STD_FONT_LARGE}>My selected pets</StyledText>
-                    <FlexContainer>
-                        <PrimaryButton $marginRight={6} onClick={clearAllSelected} disabled={selectedPets.length === 0}>
-                            Clear selection
-                        </PrimaryButton>
-                        <PrimaryButton onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
-                            <FlexContainer>
-                                <IoMdDownload />
-                                <Container $marginLeft={3}>Download selected ({selectedPets.length})</Container>
-                            </FlexContainer>
-                        </PrimaryButton>
-                    </FlexContainer>
-                </ResponsiveFlexContainer>
-
-                {selectedPets.length === 0 ? (
-                    <StyledText $color={StdColors.GRAY}>Select pets from below to download</StyledText>
-                ) : (
-                    <SelectedPetsView selectedPets={selectedPets} onSelectPetByUrl={onSelectPetByUrl} />
-                )}
-            </Section>
-
-            <Section>
-                <ResponsiveFlexContainer $cutoff={MOBILE} $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={36}>
-                    <FlexContainer>
-                        <StyledInput
-                            $width={240}
-                            placeholder="search"
-                            onChange={handleInputChange}
-                            value={localSearchText}
-                        />
-                        <PrimaryButton $marginLeft={6} onClick={selectAllClientPets}>
-                            Select all ({clientPets.length})
-                        </PrimaryButton>
-                    </FlexContainer>
-
-                    <FlexContainer>
-                        <PrimaryButton $marginRight={6} onClick={onSortByNameClick}>
-                            <FlexContainer $alignItems={STD_ALIGN_CENTER}>
-                                <Container $marginRight={orderedBy !== undefined ? 3 : 0}>Sort by name</Container>
-                                {orderedBy !== undefined &&
-                                    (orderedBy === OrderBy.DESC ? <FaArrowDown /> : <FaArrowUp />)}
-                            </FlexContainer>
-                        </PrimaryButton>
-                        <PrimaryButton
-                            onClick={onClearFiltersAndSortingClick}
-                            disabled={orderedBy === undefined && searchedText === ''}
-                        >
-                            Clear filters/sort
-                        </PrimaryButton>
-                    </FlexContainer>
-                </ResponsiveFlexContainer>
-
-                <FlexContainer $isFlexCol={true}>
-                    <ClientPetGrid
-                        clientPets={clientPets}
-                        onSelectPetByUrl={onSelectPetByUrl}
-                        isPetUrlSelected={isPetUrlSelected}
-                    />
+        <FlexContainer $isFlexCol={true}>
+            <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL} $width="100%" $maxWidth={1100}>
+                <FlexContainer $alignItems={STD_ALIGN_CENTER} $justifyContent={STD_JUSTIFY_END} $marginBottom={12}>
+                    {lastUpdated && <StyledLastUpdated lastUpdate={lastUpdated} />}
+                    <SecondaryButton onClick={onRefreshClick}>
+                        <FlexContainer $alignItems={STD_ALIGN_CENTER}>
+                            <IoMdRefresh />
+                        </FlexContainer>
+                    </SecondaryButton>
                 </FlexContainer>
-            </Section>
+
+                <Section $marginBottom={60}>
+                    <ResponsiveFlexContainer $cutoff={MOBILE} $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={12}>
+                        <StyledText $font={STD_FONT_LARGE}>My selected pets</StyledText>
+                        <FlexContainer>
+                            <PrimaryButton
+                                $marginRight={6}
+                                onClick={clearAllSelected}
+                                disabled={selectedPets.length === 0}
+                            >
+                                Clear selection
+                            </PrimaryButton>
+                            <PrimaryButton onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
+                                <FlexContainer>
+                                    <IoMdDownload />
+                                    <Container $marginLeft={3}>Download selected ({selectedPets.length})</Container>
+                                </FlexContainer>
+                            </PrimaryButton>
+                        </FlexContainer>
+                    </ResponsiveFlexContainer>
+
+                    {selectedPets.length === 0 ? (
+                        <StyledText $color={StdColors.GRAY}>Select pets from below to download</StyledText>
+                    ) : (
+                        <SelectedPetsView selectedPets={selectedPets} onSelectPetByUrl={onSelectPetByUrl} />
+                    )}
+                </Section>
+
+                <Section>
+                    <ResponsiveFlexContainer $cutoff={MOBILE} $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={36}>
+                        <FlexContainer>
+                            <StyledInput
+                                $width={240}
+                                placeholder="search"
+                                onChange={handleInputChange}
+                                value={localSearchText}
+                            />
+                            <PrimaryButton $marginLeft={6} onClick={selectAllClientPets}>
+                                Select all ({clientPets.length})
+                            </PrimaryButton>
+                        </FlexContainer>
+
+                        <FlexContainer>
+                            <PrimaryButton $marginRight={6} onClick={onSortByNameClick}>
+                                <FlexContainer $alignItems={STD_ALIGN_CENTER}>
+                                    <Container $marginRight={orderedBy !== undefined ? 3 : 0}>Sort by name</Container>
+                                    {orderedBy !== undefined &&
+                                        (orderedBy === OrderBy.DESC ? <FaArrowDown /> : <FaArrowUp />)}
+                                </FlexContainer>
+                            </PrimaryButton>
+                            <PrimaryButton
+                                onClick={onClearFiltersAndSortingClick}
+                                disabled={orderedBy === undefined && searchedText === ''}
+                            >
+                                Clear filters/sort
+                            </PrimaryButton>
+                        </FlexContainer>
+                    </ResponsiveFlexContainer>
+
+                    <FlexContainer $isFlexCol={true}>
+                        {isLoading || clientPets === undefined ? (
+                            <div>Loading...</div>
+                        ) : (
+                            <ClientPetGrid
+                                clientPets={clientPets}
+                                onSelectPetByUrl={onSelectPetByUrl}
+                                isPetUrlSelected={isPetUrlSelected}
+                            />
+                        )}
+                    </FlexContainer>
+                </Section>
+            </FlexContainer>
         </FlexContainer>
     )
 }
