@@ -1,30 +1,18 @@
-import styled from 'styled-components'
-
 import React, { useState } from 'react'
 import { IoMdDownload } from 'react-icons/io'
+import Checkbox from 'components/Checkbox'
 import HighlightedSearchString from 'components/HighlightedSearchString'
 import { Container } from 'components/Styled'
 import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE, STD_BORDER_R12 } from 'components/Styled/Border'
 import { Button } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
-import { FlexContainer } from 'components/Styled/Flex'
+import { FlexContainer, STD_JUSTIFY_BETWEEN } from 'components/Styled/Flex'
 import { ContainedImg } from 'components/Styled/Image'
-import { STD_FONT_LARGE, STD_FONT_SMALL, STD_TEXT_ALIGN_CENTER, StyledText } from 'components/Styled/Text'
+import { STD_FONT_LARGE, STD_FONT_SMALL, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
 import { ClientPet } from 'models/Pet'
-
-const StyledTitle = styled(HighlightedSearchString)`
-    ${STD_FONT_LARGE}
-    ${STD_TEXT_ALIGN_CENTER}
-    margin-bottom: 6px;
-`
-
-const StyledDescription = styled(HighlightedSearchString)`
-    ${STD_TEXT_ALIGN_CENTER}
-    margin: 12px 0px;
-`
 
 interface PetCardProps {
     petInfo: ClientPet
@@ -59,26 +47,34 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}
             $isFlexCol={true}
         >
-            <input type="checkbox" checked={isSelected} onChange={() => onSelectPetByUrl(url)} />
-            <StyledTitle searchString={searchedTitle} />
+            <StyledText $font={STD_FONT_LARGE} $shouldCenter={true} $marginBottom={6}>
+                <HighlightedSearchString searchString={searchedTitle} />
+            </StyledText>
             <StyledText $font={STD_FONT_SMALL} $shouldCenter={true} $color={StdColors.GRAY} $marginBottom={6}>
                 Created {toClientDateString(created)}
             </StyledText>
             <ContainedImg
                 $backgroundColor={StdColors.LIGHT_GRAY}
                 $borderRadius={STD_BORDER_R12}
+                $marginBottom={12}
                 height={190}
                 width={285}
                 src={url}
                 alt="title"
             />
-            <StyledDescription searchString={searchedDescription} />
-            <Button disabled={isDownloading} onClick={onDownloadClick}>
-                <FlexContainer>
-                    <IoMdDownload />
-                    <Container $marginLeft={3}>Download image</Container>
-                </FlexContainer>
-            </Button>
+            <StyledText $shouldCenter={true} $marginBottom={24}>
+                <HighlightedSearchString searchString={searchedDescription} />
+            </StyledText>
+
+            <FlexContainer $justifyContent={STD_JUSTIFY_BETWEEN} $width="100%">
+                <Button disabled={isDownloading} onClick={onDownloadClick}>
+                    <FlexContainer>
+                        <IoMdDownload />
+                        <Container $marginLeft={3}>Download image</Container>
+                    </FlexContainer>
+                </Button>
+                <Checkbox label="Select" isChecked={isSelected} onChecked={() => onSelectPetByUrl(url)} />
+            </FlexContainer>
         </Card>
     )
 }

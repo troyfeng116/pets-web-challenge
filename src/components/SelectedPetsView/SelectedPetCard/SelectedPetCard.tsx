@@ -19,7 +19,7 @@ export const SelectedPetCard: React.FC<SelectedPetCardProps> = (props) => {
     const { title, url } = selectedPet
 
     return (
-        <Card $isFlexCol={true} $padding="6px 12px 12px 12px" $margin="6px 3px">
+        <Card $isFlexCol={true} $padding="6px 12px 12px 12px" $margin="6px 3px" $backgroundColor={StdColors.WHITE}>
             <FlexContainer $width="100%" $justifyContent={STD_JUSTIFY_END} $marginBottom={6}>
                 <TernaryButton $padding="0px" onClick={() => onSelectPetByUrl(url)}>
                     <FlexContainer>

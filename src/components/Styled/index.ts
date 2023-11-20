@@ -22,6 +22,7 @@ export interface BaseStyledProps {
 
     $width?: number | string
     $maxWidth?: number | string
+    $height?: number | string
 
     $borderRadius?: RuleSet<object>
 }
@@ -46,6 +47,7 @@ export const handleBaseStyledProps = css<BaseStyledProps>`
 
     width: ${(props) => props.$width + (typeof props.$width === 'number' ? 'px' : '')};
     max-width: ${(props) => props.$maxWidth + (typeof props.$maxWidth === 'number' ? 'px' : '')};
+    height: ${(props) => props.$height + (typeof props.$height === 'number' ? 'px' : '')};
 
     ${(props) => props.$borderRadius}
 `
