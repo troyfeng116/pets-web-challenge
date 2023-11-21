@@ -1,6 +1,7 @@
 {
-    "name": "web",
+    "name": "pets-web-challenge",
     "version": "0.1.0",
+    "homepage": "https://troyfeng116.github.io/pets-web-challenge",
     "private": true,
     "dependencies": {
         "@testing-library/jest-dom": "^5.17.0",
@@ -26,7 +27,9 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "lint": "eslint --fix --ext .js,.ts .",
-        "pretty": "prettier --config .prettierrc . --write"
+        "pretty": "prettier --config .prettierrc . --write",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
     "browserslist": {
         "production": [
@@ -49,6 +52,7 @@
         "eslint-plugin-prettier": "^5.0.1",
         "eslint-plugin-react": "^7.33.2",
         "eslint-plugin-simple-import-sort": "^10.0.0",
+        "gh-pages": "^6.1.0",
         "prettier": "3.1.0"
     }
 }
