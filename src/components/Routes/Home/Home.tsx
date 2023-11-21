@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoMdRefresh } from 'react-icons/io'
+import HomeSearchGridSection from 'components/HomeComponents/HomeSearchGridSection'
+import HomeSelectedSection from 'components/HomeComponents/HomeSelectedSection'
 import LastUpdated from 'components/LastUpdated'
 import Modal from 'components/Modal'
 import PetModalCard from 'components/Modal/PetModalCard'
@@ -12,9 +14,6 @@ import { useFavoritesContext } from 'components/Wrappers/FavoritesProvider/Favor
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
 import { OrderBy } from 'models/OrderBy'
 import { Pet } from 'models/Pet'
-
-import HomeSearchGridSection from './HomeSearchGridSection'
-import HomeSelectedSection from './HomeSelectedSection'
 
 export const Home: React.FC = () => {
     const {
