@@ -27,7 +27,7 @@ export const SelectedPetCard: React.FC<SelectedPetCardProps> = (props) => {
                     </FlexContainer>
                 </SecondaryButton>
             </FlexContainer>
-            <PetImage url={url} alt={title} height={66} width={100} onClick={() => onClickForModal(selectedPet)} />
+            <PetImage src={url} alt={title} height={66} width={100} onClick={() => onClickForModal(selectedPet)} />
             <BoundedWidthText $marginTop={6} $textWidth={100} $shouldCenter={true}>
                 {title}
             </BoundedWidthText>

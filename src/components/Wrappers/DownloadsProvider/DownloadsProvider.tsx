@@ -82,7 +82,8 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
             const { downloadId } = downloads[i]
             if (downloadId === downloadIdToDelete) {
                 setDownloads((prevDownloads) => {
-                    const updatedDownloads = [...prevDownloads].splice(i, 1)
+                    const updatedDownloads = [...prevDownloads]
+                    updatedDownloads.splice(i, 1)
                     setCookie(DOWNLOADS_COOKIE, petDownloadRecordsToCookie(updatedDownloads))
                     return updatedDownloads
                 })

@@ -29,7 +29,7 @@ export const FeaturedPetCard: React.FC<FeaturedPetCardProps> = (props) => {
                     width: 330px;
                     height: 220px;
                 `}
-                url={url}
+                src={url}
                 alt="title"
             />
             <StyledText $shouldCenter={true}>{description}</StyledText>

@@ -57,7 +57,7 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
                     Created {toClientDateString(created)}
                 </StyledText>
                 <PetImage
-                    url={url}
+                    src={url}
                     alt={title}
                     $marginBottom={12}
                     height={190}

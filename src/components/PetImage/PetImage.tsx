@@ -6,7 +6,7 @@ import { STD_CURSOR_ZOOM } from 'components/Styled/Cursor'
 import { ContainedImg } from 'components/Styled/Image'
 
 interface PetImageProps extends BaseStyledProps {
-    url: string
+    src: string
     alt: string
     width: number
     height: number
@@ -18,7 +18,7 @@ interface PetImageProps extends BaseStyledProps {
  * Wrapper around standard styled ContainedImage
  */
 export const PetImage: React.FC<PetImageProps> = (props) => {
-    const { url, alt, width, height, onClick } = props
+    const { onClick } = props
 
     return (
         <ContainedImg
@@ -27,11 +27,6 @@ export const PetImage: React.FC<PetImageProps> = (props) => {
             $border={STD_BORDER_MEDIUM_BLUE}
             $borderRadius={STD_BORDER_R12}
             $cursor={onClick !== undefined ? STD_CURSOR_ZOOM : undefined}
-            height={height}
-            width={width}
-            src={url}
-            alt={alt}
-            onClick={onClick}
         />
     )
 }

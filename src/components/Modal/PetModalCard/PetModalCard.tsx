@@ -22,7 +22,7 @@ export const PetModalCard: React.FC<PetModalCardProps> = (props) => {
             <StyledText $font={STD_FONT_SMALL} $shouldCenter={true} $color={StdColors.GRAY} $marginBottom={6}>
                 Created {toClientDateString(created)}
             </StyledText>
-            <PetImage $marginBottom={12} height={400} width={600} url={url} alt="title" />
+            <PetImage $marginBottom={12} height={400} width={600} src={url} alt="title" />
             <StyledText as="div" $shouldCenter={true}>
                 {description}
             </StyledText>
