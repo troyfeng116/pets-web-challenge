@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { downloadPetImage } from 'lib/api/downloadPetImage'
+import { petDownloadRecordsToCookie } from 'lib/utils/cookies/petDownloadRecordsToCookie'
 import { generateRandomUid } from 'lib/utils/randomUid'
 import { Pet } from 'models/Pet'
 import { PetDownloadRecord } from 'models/PetDownloadRecord'
@@ -47,7 +48,7 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
             const cookieDownloadsList = cookieDownloadsValue as PetDownloadRecord[]
             setDownloads([...cookieDownloadsList])
         } else {
-            setCookie(DOWNLOADS_COOKIE, JSON.stringify([]))
+            setCookie(DOWNLOADS_COOKIE, petDownloadRecordsToCookie([]))
         }
     }, [])
 
@@ -55,20 +56,22 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
         petInfoToDownload: Pet,
         onDownloadCompleteCallback?: (success: boolean, error?: string) => void,
     ) => {
-        const newUid = generateRandomUid()
-        const newRecord: PetDownloadRecord = {
-            petInfo: petInfoToDownload,
-            timestampMs: new Date().getTime(),
-            downloadId: newUid,
-        }
-
         const { success: downloadSuccess, error: downloadError } = await downloadPetImage(petInfoToDownload)
 
-        setDownloads((prevDownloads) => {
-            const updatedDownloads = [newRecord, ...prevDownloads]
-            setCookie(DOWNLOADS_COOKIE, JSON.stringify(updatedDownloads))
-            return updatedDownloads
-        })
+        if (downloadSuccess) {
+            setDownloads((prevDownloads) => {
+                const newUid = generateRandomUid()
+                const newRecord: PetDownloadRecord = {
+                    petInfo: petInfoToDownload,
+                    timestampMs: new Date().getTime(),
+                    downloadId: newUid,
+                }
+                const updatedDownloads = [newRecord, ...prevDownloads]
+                setCookie(DOWNLOADS_COOKIE, petDownloadRecordsToCookie(updatedDownloads))
+                return updatedDownloads
+            })
+        }
+
         if (onDownloadCompleteCallback !== undefined) {
             onDownloadCompleteCallback(downloadSuccess, downloadError)
         }
@@ -80,7 +83,7 @@ export const DownloadsProvider: React.FC<DownloadsProviderProps> = (props) => {
             if (downloadId === downloadIdToDelete) {
                 setDownloads((prevDownloads) => {
                     const updatedDownloads = [...prevDownloads].splice(i, 1)
-                    setCookie(DOWNLOADS_COOKIE, JSON.stringify(updatedDownloads))
+                    setCookie(DOWNLOADS_COOKIE, petDownloadRecordsToCookie(updatedDownloads))
                     return updatedDownloads
                 })
             }
