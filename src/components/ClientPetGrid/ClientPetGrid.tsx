@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import React from 'react'
-import PetCard from 'components/PetCard'
+import PetCard from 'components/ClientPetGrid/PetCard'
 import { DESKTOP, TABLET } from 'components/Styled/Responsive'
 import { ClientPet, Pet } from 'models/Pet'
 
