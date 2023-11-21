@@ -1,34 +1,20 @@
-import { css } from 'styled-components'
-
 import React, { useEffect, useState } from 'react'
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
-import { IoMdDownload } from 'react-icons/io'
 import { IoMdRefresh } from 'react-icons/io'
-import ClientPetGrid from 'components/ClientPetGrid'
 import LastUpdated from 'components/LastUpdated'
 import Modal from 'components/Modal'
 import PetModalCard from 'components/Modal/PetModalCard'
-import SelectedPetsView from 'components/SelectedPetsView'
 import { Container } from 'components/Styled'
-import { PrimaryButton, SecondaryButton } from 'components/Styled/Button'
+import { SecondaryButton } from 'components/Styled/Button'
 import { StdColors } from 'components/Styled/Colors'
-import {
-    FlexContainer,
-    ResponsiveFlexContainer,
-    STD_ALIGN_CENTER,
-    STD_ALIGN_NORMAL,
-    STD_JUSTIFY_BETWEEN,
-    STD_JUSTIFY_END,
-} from 'components/Styled/Flex'
-import { StyledInput } from 'components/Styled/Input'
-import { MOBILE, TABLET } from 'components/Styled/Responsive'
-import { Section } from 'components/Styled/Section'
-import { STD_FONT_LARGE, StyledText } from 'components/Styled/Text'
+import { FlexContainer, STD_ALIGN_CENTER, STD_ALIGN_NORMAL, STD_JUSTIFY_END } from 'components/Styled/Flex'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { useFavoritesContext } from 'components/Wrappers/FavoritesProvider/FavoritesProvider'
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
 import { OrderBy } from 'models/OrderBy'
 import { Pet } from 'models/Pet'
+
+import HomeSearchGridSection from './HomeSearchGridSection'
+import HomeSelectedSection from './HomeSelectedSection'
 
 export const Home: React.FC = () => {
     const {
@@ -51,7 +37,7 @@ export const Home: React.FC = () => {
     const { isLoading, lastUpdated } = petsFetchState
 
     const { downloadPetInfo } = useDownloadsContext()
-    const { isFavorite, areAllFavorites, toggleFavorites } = useFavoritesContext()
+    const { toggleFavorites } = useFavoritesContext()
 
     const [localSearchText, setLocalSearchText] = useState<string>('')
     const [modalPetInfo, setModalPetInfo] = useState<Pet>()
@@ -132,115 +118,32 @@ export const Home: React.FC = () => {
                     </SecondaryButton>
                 </FlexContainer>
 
-                <Section $marginBottom={60}>
-                    <ResponsiveFlexContainer
-                        $cutoff={MOBILE}
-                        $cutoffRules={STD_ALIGN_NORMAL}
-                        $justifyContent={STD_JUSTIFY_BETWEEN}
-                        $marginBottom={12}
-                    >
-                        <StyledText
-                            $font={STD_FONT_LARGE}
-                            $cutoff={MOBILE}
-                            $cutoffRules={css`
-                                margin-bottom: 12px;
-                            `}
-                        >
-                            My selected pets
-                        </StyledText>
-                        <FlexContainer>
-                            <PrimaryButton
-                                $marginRight={6}
-                                onClick={onToggleFavoritesForSelected}
-                                disabled={selectedPets.length === 0}
-                            >
-                                {areAllFavorites(selectedPetUrls) ? 'Unfavorite' : 'Favorite'} all
-                            </PrimaryButton>
-                            <PrimaryButton
-                                $marginRight={6}
-                                onClick={clearAllSelected}
-                                disabled={selectedPets.length === 0}
-                            >
-                                Clear selection
-                            </PrimaryButton>
-                            <PrimaryButton onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
-                                <FlexContainer>
-                                    <IoMdDownload />
-                                    <Container $marginLeft={3}>Download selected ({selectedPets.length})</Container>
-                                </FlexContainer>
-                            </PrimaryButton>
-                        </FlexContainer>
-                    </ResponsiveFlexContainer>
+                <Container $marginBottom={60}>
+                    <HomeSelectedSection
+                        selectedPets={selectedPets}
+                        selectedPetUrls={selectedPetUrls}
+                        onToggleFavoritesForSelected={onToggleFavoritesForSelected}
+                        clearAllSelected={clearAllSelected}
+                        onDownloadAllSelectedClick={onDownloadAllSelectedClick}
+                        onSelectPetByUrl={onSelectPetByUrl}
+                        onClickForModal={onClickForModal}
+                    />
+                </Container>
 
-                    {selectedPets.length === 0 ? (
-                        <StyledText $color={StdColors.GRAY}>Select pets from below to download</StyledText>
-                    ) : (
-                        <SelectedPetsView
-                            selectedPets={selectedPets}
-                            onSelectPetByUrl={onSelectPetByUrl}
-                            onClickForModal={onClickForModal}
-                            isPetUrlFavorite={isFavorite}
-                            togglePetUrlFavorite={(petUrl: string) => toggleFavorites([petUrl])}
-                        />
-                    )}
-                </Section>
-
-                <Section>
-                    <ResponsiveFlexContainer
-                        $cutoff={TABLET}
-                        $cutoffRules={STD_ALIGN_NORMAL}
-                        $justifyContent={STD_JUSTIFY_BETWEEN}
-                        $marginBottom={36}
-                    >
-                        <FlexContainer
-                            $cutoff={TABLET}
-                            $cutoffRules={css`
-                                margin-bottom: 12px;
-                            `}
-                        >
-                            <StyledInput
-                                $width={240}
-                                placeholder="search"
-                                onChange={handleInputChange}
-                                value={localSearchText}
-                            />
-                            <PrimaryButton $marginLeft={6} onClick={selectAllClientPets}>
-                                Select all ({clientPets.length})
-                            </PrimaryButton>
-                        </FlexContainer>
-
-                        <FlexContainer>
-                            <PrimaryButton $marginRight={6} onClick={onSortByNameClick}>
-                                <FlexContainer $alignItems={STD_ALIGN_CENTER}>
-                                    <Container $marginRight={orderedBy !== undefined ? 3 : 0}>Sort by name</Container>
-                                    {orderedBy !== undefined &&
-                                        (orderedBy === OrderBy.DESC ? <FaArrowDown /> : <FaArrowUp />)}
-                                </FlexContainer>
-                            </PrimaryButton>
-                            <PrimaryButton
-                                onClick={onClearFiltersAndSortingClick}
-                                disabled={orderedBy === undefined && searchedText === ''}
-                            >
-                                Clear filters/sort
-                            </PrimaryButton>
-                        </FlexContainer>
-                    </ResponsiveFlexContainer>
-
-                    <FlexContainer $isFlexCol={true}>
-                        {isLoading || clientPets === undefined ? (
-                            <div>Loading...</div>
-                        ) : (
-                            <ClientPetGrid
-                                clientPets={clientPets}
-                                onSelectPetByUrl={onSelectPetByUrl}
-                                isPetUrlSelected={isPetUrlSelected}
-                                isPetUrlFavorite={isFavorite}
-                                togglePetUrlFavorite={(petUrl: string) => toggleFavorites([petUrl])}
-                                onClickForModal={onClickForModal}
-                            />
-                        )}
-                    </FlexContainer>
-                </Section>
+                <HomeSearchGridSection
+                    isLoading={isLoading}
+                    clientPets={clientPets}
+                    orderedBy={orderedBy}
+                    searchedText={searchedText}
+                    localSearchText={localSearchText}
+                    handleInputChange={handleInputChange}
+                    selectAllClientPets={selectAllClientPets}
+                    onSortByNameClick={onSortByNameClick}
+                    onClearFiltersAndSortingClick={onClearFiltersAndSortingClick}
+                    onSelectPetByUrl={onSelectPetByUrl}
+                    isPetUrlSelected={isPetUrlSelected}
+                    onClickForModal={onClickForModal}
+                />
             </FlexContainer>
 
             {modalPetInfo !== undefined && (
