@@ -1,46 +1,45 @@
-# Getting Started with Create React App
+# Pets Web Challenge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[GitHub pages deployment](https://troyfeng116.github.io/pets-web-challenge/#/)
 
-## Available Scripts
+[About](https://troyfeng116.github.io/pets-web-challenge/#/about)
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Features
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Provider to manage data fetching from pets URL (`components/Wrappers/PetsProvider`)
+- Providers to manage client cookies for persistent favorites/downloads storage in lieu of a full backend (`components/Wrappers/DownloadsProvider`, `components/Wrappers/FavoritesProvider`)
+- Dynamic cookie stringification and truncation for browser support, implemented with binary search, for least-recently-used (LRU) eviction policy (`lib/utils/cookies`)
+- Custom hook with reducer model to manage client-side state management (selection, filtering, etc.) (`components/hooks/useClientPetsManager`)
+- Custom hook with reducer model to manage data fetching (`components/hooks/usePets`)
+- Interactive search text highlighting, implemented with KMP pattern matching (`lib/utils/searchPets.ts`)
+- Responsive design, with support for all screen widths using standard `styled-components`
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Home page
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+View, filter, sort, select favorites, individual/batch download.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<img src="https://github.com/troyfeng116/pets-web-challenge/blob/main/docs/images/home1.png?raw=true" alt="Home page 1" width="600"/>
+<img src="https://github.com/troyfeng116/pets-web-challenge/blob/main/docs/images/home2.png?raw=true" alt="Home page 2" width="600"/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Downloads page
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+View recent downloaded pets (subject to browser cookie limitations, with download timestamp recency eviction policy).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<img src="https://github.com/troyfeng116/pets-web-challenge/blob/main/docs/images/downloads.png?raw=true" alt="Downloads page" width="600"/>
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Favorites page
+
+View favorite pet images (subject to browser cookie limitations).
+
+<img src="https://github.com/troyfeng116/pets-web-challenge/blob/main/docs/images/favorites.png?raw=true" alt="Favorites page" width="600"/>
+
