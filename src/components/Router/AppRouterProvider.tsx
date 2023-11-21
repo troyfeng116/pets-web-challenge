@@ -1,12 +1,12 @@
 import React from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 import About from 'components/Routes/About'
 import Downloads from 'components/Routes/Downloads'
 import Favorites from 'components/Routes/Favorites'
 import Home from 'components/Routes/Home'
 import LayoutWrapper from 'components/Wrappers/LayoutWrapper'
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         element: <LayoutWrapper />,
         children: [
