@@ -25,9 +25,7 @@ export const DownloadsTable: React.FC<DownloadsTableProps> = (props) => {
                     <StyledTd as="th" $padding="6px">
                         Downloaded on
                     </StyledTd>
-                    <StyledTd as="th" $padding="6px">
-                        Actions
-                    </StyledTd>
+                    <StyledTd as="th" $padding="6px"></StyledTd>
                 </tr>
             </thead>
             <tbody>
