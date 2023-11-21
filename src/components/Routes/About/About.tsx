@@ -34,6 +34,10 @@ export const About: React.FC = () => {
                                 View recent downloads <NavLink to="/downloads">here</NavLink> (limited by max browser
                                 cookie size)
                             </StyledLi>
+                            <StyledLi>
+                                Pick out favorites and view <NavLink to="/favorites">here</NavLink> (limited by max
+                                browser cookie size)
+                            </StyledLi>
                         </Container>
                     </Container>
                 </FlexContainer>

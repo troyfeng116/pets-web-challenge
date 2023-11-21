@@ -46,6 +46,7 @@ export const NavBar: React.FC = () => {
                 <StyledNavLink to="/">Home</StyledNavLink>
                 <StyledNavLink to="/about">About</StyledNavLink>
                 <StyledNavLink to="/downloads">Downloads</StyledNavLink>
+                <StyledNavLink to="/favorites">Favorites</StyledNavLink>
             </FlexContainer>
         </NavContainer>
     )
