@@ -18,16 +18,16 @@ const StyledLi = styled.li`
 
 export const About: React.FC = () => {
     return (
-        <FlexContainer $isFlexCol={true}>
-            <Section $marginTop={18} $marginBottom={36}>
-                <FlexContainer $isFlexCol={true} $width="fit-content">
+        <FlexContainer $isFlexCol={true} $marginTop={24}>
+            <Section $marginTop={18} $marginBottom={60}>
+                <FlexContainer $isFlexCol={true}>
                     <StyledText $font={STD_FONT_LARGE} $shouldCenter={true} $marginBottom={24}>
                         Explore fun pet images and bios, and download your favorite images!
                     </StyledText>
 
                     <Container>
                         <StyledText $marginBottom={6}>Features:</StyledText>
-                        <Container as="ul" $width="fit-content" $paddingLeft={30}>
+                        <Container as="ul" $paddingLeft={30}>
                             <StyledLi>Dynamic image selection, with batch downloads</StyledLi>
                             <StyledLi>Interactive search with search text highlighting</StyledLi>
                             <StyledLi>
@@ -35,8 +35,8 @@ export const About: React.FC = () => {
                                 cookie size)
                             </StyledLi>
                             <StyledLi>
-                                Pick out favorites and view <NavLink to="/favorites">here</NavLink> (limited by max
-                                browser cookie size)
+                                Pick out your favorite images and view <NavLink to="/favorites">here</NavLink> (limited
+                                by max browser cookie size)
                             </StyledLi>
                             <StyledLi>Fully responsive design</StyledLi>
                         </Container>

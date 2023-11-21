@@ -10,8 +10,8 @@ export const STD_ALIGN_NORMAL = css`
     align-items: normal;
 `
 
-export const STD_ALIGN_START = css`
-    align-items: flex-start;
+export const STD_ALIGN_END = css`
+    align-items: flex-end;
 `
 
 export const STD_ALIGN_CENTER = css`

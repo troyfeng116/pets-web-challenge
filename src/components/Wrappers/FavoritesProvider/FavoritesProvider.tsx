@@ -5,12 +5,14 @@ import { truncateListToCookieSize } from 'lib/utils/cookies/truncateListToCookie
 const FAVORITES_COOKIE = 'FAVORITES_COOKIE'
 
 interface FavoritesContextState {
+    favoriteSet: Set<string>
     isFavorite: (petUrl: string) => boolean
     areAllFavorites: (petUrls: string[]) => boolean
     toggleFavorites: (petUrls: string[]) => void
 }
 
 const initialState: FavoritesContextState = {
+    favoriteSet: new Set(),
     isFavorite: () => false,
     areAllFavorites: () => false,
     toggleFavorites: () => null,
@@ -77,6 +79,7 @@ export const FavoritesProvider: React.FC<FavoritesProviderProps> = (props) => {
     return (
         <FavoritesContext.Provider
             value={{
+                favoriteSet: favoriteSet,
                 isFavorite: isFavorite,
                 areAllFavorites: areAllFavorites,
                 toggleFavorites: toggleFavorites,
