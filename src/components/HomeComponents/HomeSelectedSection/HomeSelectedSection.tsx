@@ -55,15 +55,15 @@ export const HomeSelectedSection: React.FC<HomeSelectedSectionProps> = (props) =
                     My selected pets
                 </StyledText>
                 <FlexContainer>
+                    <PrimaryButton $marginRight={6} onClick={clearAllSelected} disabled={selectedPets.length === 0}>
+                        Clear selection
+                    </PrimaryButton>
                     <PrimaryButton
                         $marginRight={6}
                         onClick={onToggleFavoritesForSelected}
                         disabled={selectedPets.length === 0}
                     >
                         {areAllFavorites(selectedPetUrls) ? 'Unfavorite' : 'Favorite'} all
-                    </PrimaryButton>
-                    <PrimaryButton $marginRight={6} onClick={clearAllSelected} disabled={selectedPets.length === 0}>
-                        Clear selection
                     </PrimaryButton>
                     <PrimaryButton onClick={onDownloadAllSelectedClick} disabled={selectedPets.length === 0}>
                         <FlexContainer>

@@ -38,6 +38,7 @@ export const About: React.FC = () => {
                                 Pick out favorites and view <NavLink to="/favorites">here</NavLink> (limited by max
                                 browser cookie size)
                             </StyledLi>
+                            <StyledLi>Fully responsive design</StyledLi>
                         </Container>
                     </Container>
                 </FlexContainer>
