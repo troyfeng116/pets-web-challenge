@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import { css } from 'styled-components'
 
 import React, { useEffect, useState } from 'react'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
@@ -25,14 +25,10 @@ import { MOBILE, TABLET } from 'components/Styled/Responsive'
 import { Section } from 'components/Styled/Section'
 import { STD_FONT_LARGE, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
+import { useFavoritesContext } from 'components/Wrappers/FavoritesProvider/FavoritesProvider'
 import { useClientPetsManager } from 'hooks/useClientPetsManager'
 import { OrderBy } from 'models/OrderBy'
 import { Pet } from 'models/Pet'
-
-const StyledLastUpdated = styled(LastUpdated)`
-    color: ${StdColors.GRAY};
-    margin-right: 6px;
-`
 
 export const Home: React.FC = () => {
     const {
@@ -55,6 +51,7 @@ export const Home: React.FC = () => {
     const { isLoading, lastUpdated } = petsFetchState
 
     const { downloadPetInfo } = useDownloadsContext()
+    const { isFavorite, areAllFavorites, toggleFavorites } = useFavoritesContext()
 
     const [localSearchText, setLocalSearchText] = useState<string>('')
     const [modalPetInfo, setModalPetInfo] = useState<Pet>()
@@ -71,6 +68,8 @@ export const Home: React.FC = () => {
         }, 390)
         return () => clearTimeout(timeout)
     }, [localSearchText, searchPattern])
+
+    const selectedPetUrls = selectedPets.map(({ url }) => url)
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setLocalSearchText(e.target.value)
@@ -105,6 +104,10 @@ export const Home: React.FC = () => {
         resetOrderingAndFilters()
     }
 
+    const onToggleFavoritesForSelected = () => {
+        toggleFavorites(selectedPetUrls)
+    }
+
     const onClickForModal = (pet: Pet) => {
         setModalPetInfo(pet)
     }
@@ -117,7 +120,11 @@ export const Home: React.FC = () => {
         <FlexContainer $isFlexCol={true}>
             <FlexContainer $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL} $width="100%" $maxWidth={1100}>
                 <FlexContainer $alignItems={STD_ALIGN_CENTER} $justifyContent={STD_JUSTIFY_END} $marginBottom={12}>
-                    {lastUpdated && <StyledLastUpdated lastUpdate={lastUpdated} />}
+                    {lastUpdated && (
+                        <Container $color={StdColors.GRAY} $marginRight={6}>
+                            <LastUpdated lastUpdate={lastUpdated} />
+                        </Container>
+                    )}
                     <SecondaryButton onClick={onRefreshClick} disabled={isLoading}>
                         <FlexContainer $alignItems={STD_ALIGN_CENTER}>
                             <IoMdRefresh />
@@ -144,6 +151,13 @@ export const Home: React.FC = () => {
                         <FlexContainer>
                             <PrimaryButton
                                 $marginRight={6}
+                                onClick={onToggleFavoritesForSelected}
+                                disabled={selectedPets.length === 0}
+                            >
+                                {areAllFavorites(selectedPetUrls) ? 'Unfavorite' : 'Favorite'} all
+                            </PrimaryButton>
+                            <PrimaryButton
+                                $marginRight={6}
                                 onClick={clearAllSelected}
                                 disabled={selectedPets.length === 0}
                             >
@@ -165,6 +179,8 @@ export const Home: React.FC = () => {
                             selectedPets={selectedPets}
                             onSelectPetByUrl={onSelectPetByUrl}
                             onClickForModal={onClickForModal}
+                            isPetUrlFavorite={isFavorite}
+                            togglePetUrlFavorite={(petUrl: string) => toggleFavorites([petUrl])}
                         />
                     )}
                 </Section>
@@ -218,6 +234,8 @@ export const Home: React.FC = () => {
                                 clientPets={clientPets}
                                 onSelectPetByUrl={onSelectPetByUrl}
                                 isPetUrlSelected={isPetUrlSelected}
+                                isPetUrlFavorite={isFavorite}
+                                togglePetUrlFavorite={(petUrl: string) => toggleFavorites([petUrl])}
                                 onClickForModal={onClickForModal}
                             />
                         )}

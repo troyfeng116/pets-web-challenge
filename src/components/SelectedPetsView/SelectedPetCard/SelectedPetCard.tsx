@@ -4,23 +4,27 @@ import PetImage from 'components/PetImage'
 import { SecondaryButton } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
-import { FlexContainer, STD_JUSTIFY_END } from 'components/Styled/Flex'
+import { StyledStar } from 'components/Styled/FavoriteStar'
+import { FlexContainer, STD_JUSTIFY_BETWEEN } from 'components/Styled/Flex'
 import { BoundedWidthText } from 'components/Styled/Text'
 import { Pet } from 'models/Pet'
 
 interface SelectedPetCardProps {
     selectedPet: Pet
+    isFavorite: boolean
     onSelectPetByUrl: (petUrl: string) => void
     onClickForModal: (petInfo: Pet) => void
+    onFavoritePetByUrl: (petUrl: string) => void
 }
 
 export const SelectedPetCard: React.FC<SelectedPetCardProps> = (props) => {
-    const { selectedPet, onSelectPetByUrl, onClickForModal } = props
+    const { selectedPet, isFavorite, onSelectPetByUrl, onClickForModal, onFavoritePetByUrl } = props
     const { title, url } = selectedPet
 
     return (
         <Card $isFlexCol={true} $padding="6px 12px 12px 12px" $margin="6px 3px" $backgroundColor={StdColors.WHITE}>
-            <FlexContainer $width="100%" $justifyContent={STD_JUSTIFY_END} $marginBottom={6}>
+            <FlexContainer $width="100%" $justifyContent={STD_JUSTIFY_BETWEEN} $marginBottom={6}>
+                <StyledStar $isFavorite={isFavorite} onClick={() => onFavoritePetByUrl(url)} size={18} />
                 <SecondaryButton $padding="0px" onClick={() => onSelectPetByUrl(url)}>
                     <FlexContainer>
                         <IoMdClose />

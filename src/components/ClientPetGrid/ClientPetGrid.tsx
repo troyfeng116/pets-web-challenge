@@ -34,10 +34,13 @@ interface ClientPetGridProps {
     isPetUrlSelected: (petUrl: string) => boolean
     onSelectPetByUrl: (petUrl: string) => void
     onClickForModal: (petInfo: Pet) => void
+    isPetUrlFavorite: (petUrl: string) => boolean
+    togglePetUrlFavorite: (petUrl: string) => void
 }
 
 export const ClientPetGrid: React.FC<ClientPetGridProps> = (props) => {
-    const { clientPets, isPetUrlSelected, onSelectPetByUrl, onClickForModal } = props
+    const { clientPets, isPetUrlSelected, onSelectPetByUrl, onClickForModal, isPetUrlFavorite, togglePetUrlFavorite } =
+        props
 
     return (
         <Grid>
@@ -48,8 +51,10 @@ export const ClientPetGrid: React.FC<ClientPetGridProps> = (props) => {
                         key={idx}
                         petInfo={petInfo}
                         isSelected={isPetUrlSelected(url)}
+                        isFavorite={isPetUrlFavorite(url)}
                         onSelectPetByUrl={onSelectPetByUrl}
                         onClickForModal={onClickForModal}
+                        onFavoritePetByUrl={togglePetUrlFavorite}
                     />
                 )
             })}

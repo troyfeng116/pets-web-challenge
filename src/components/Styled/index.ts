@@ -30,6 +30,12 @@ export interface BaseStyledProps {
 
     $cutoff?: string
     $cutoffRules?: RuleSet<object>
+
+    $position?: RuleSet<object>
+    $top?: number
+    $right?: number
+    $bottom?: number
+    $left?: number
 }
 
 export const handleBaseStyledProps = css<BaseStyledProps>`
@@ -57,6 +63,12 @@ export const handleBaseStyledProps = css<BaseStyledProps>`
 
     ${(props) => props.$border}
     ${(props) => props.$borderRadius}
+
+    ${(props) => props.$position}
+    top: ${(props) => props.$top + 'px'};
+    right: ${(props) => props.$right + 'px'};
+    bottom: ${(props) => props.$bottom + 'px'};
+    left: ${(props) => props.$left + 'px'};
 
     @media only screen and (max-width: ${(props) => props.$cutoff}) {
         ${(props) => props.$cutoffRules}

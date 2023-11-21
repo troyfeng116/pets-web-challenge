@@ -8,7 +8,9 @@ import { CARD_BORDER_ACTIVE, CARD_BORDER_BASE } from 'components/Styled/Border'
 import { PrimaryButton } from 'components/Styled/Button'
 import { Card } from 'components/Styled/Card'
 import { StdColors } from 'components/Styled/Colors'
+import { StyledStar } from 'components/Styled/FavoriteStar'
 import { FlexContainer, STD_JUSTIFY_BETWEEN } from 'components/Styled/Flex'
+import { STD_POSITION_ABSOLUTE, STD_POSITION_RELATIVE } from 'components/Styled/Position'
 import { STD_FONT_LARGE, STD_FONT_SMALL, StyledText } from 'components/Styled/Text'
 import { useDownloadsContext } from 'components/Wrappers/DownloadsProvider/DownloadsProvider'
 import { toClientDateString } from 'lib/utils/dateUtils'
@@ -17,14 +19,24 @@ import { ClientPet, Pet } from 'models/Pet'
 interface PetCardProps {
     petInfo: ClientPet
     isSelected: boolean
+    isFavorite: boolean
     className?: string
 
     onSelectPetByUrl: (petUrl: string) => void
     onClickForModal: (petInfo: Pet) => void
+    onFavoritePetByUrl: (petUrl: string) => void
 }
 
 export const PetCard: React.FC<PetCardProps> = (props) => {
-    const { petInfo, isSelected, className = '', onSelectPetByUrl, onClickForModal } = props
+    const {
+        petInfo,
+        isSelected,
+        isFavorite,
+        className = '',
+        onSelectPetByUrl,
+        onClickForModal,
+        onFavoritePetByUrl,
+    } = props
     const { url, created, title, searchedTitle, searchedDescription } = petInfo
 
     const { downloadPetInfo } = useDownloadsContext()
@@ -48,7 +60,11 @@ export const PetCard: React.FC<PetCardProps> = (props) => {
             $border={isSelected ? CARD_BORDER_ACTIVE : CARD_BORDER_BASE}
             $isFlexCol={true}
             $justifyContent={STD_JUSTIFY_BETWEEN}
+            $position={STD_POSITION_RELATIVE}
         >
+            <Container $position={STD_POSITION_ABSOLUTE} $top={6} $right={6}>
+                <StyledStar $isFavorite={isFavorite} onClick={() => onFavoritePetByUrl(url)} size={24} />
+            </Container>
             <FlexContainer $isFlexCol={true} $marginBottom={24}>
                 <StyledText as="div" $font={STD_FONT_LARGE} $shouldCenter={true} $marginBottom={6}>
                     <HighlightedSearchString searchString={searchedTitle} />

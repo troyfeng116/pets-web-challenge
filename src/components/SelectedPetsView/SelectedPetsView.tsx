@@ -9,21 +9,28 @@ interface SelectedPetsViewProps {
 
     onSelectPetByUrl: (petUrl: string) => void
     onClickForModal: (petInfo: Pet) => void
+    isPetUrlFavorite: (petUrl: string) => boolean
+    togglePetUrlFavorite: (petUrl: string) => void
 }
 
 export const SelectedPetsView: React.FC<SelectedPetsViewProps> = (props) => {
-    const { selectedPets, onSelectPetByUrl, onClickForModal } = props
+    const { selectedPets, onSelectPetByUrl, onClickForModal, isPetUrlFavorite, togglePetUrlFavorite } = props
 
     return (
         <FlexContainer $maxWidth="100%" $flexWrap={STD_FLEX_WRAP}>
-            {selectedPets.map((selectedPet, idx) => (
-                <SelectedPetCard
-                    key={idx}
-                    selectedPet={selectedPet}
-                    onSelectPetByUrl={onSelectPetByUrl}
-                    onClickForModal={onClickForModal}
-                />
-            ))}
+            {selectedPets.map((selectedPet, idx) => {
+                const { url } = selectedPet
+                return (
+                    <SelectedPetCard
+                        key={idx}
+                        selectedPet={selectedPet}
+                        isFavorite={isPetUrlFavorite(url)}
+                        onSelectPetByUrl={onSelectPetByUrl}
+                        onClickForModal={onClickForModal}
+                        onFavoritePetByUrl={togglePetUrlFavorite}
+                    />
+                )
+            })}
         </FlexContainer>
     )
 }

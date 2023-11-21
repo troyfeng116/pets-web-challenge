@@ -9,6 +9,7 @@ import { GlobalStyle } from 'components/Styled/Global'
 import { LAPTOP, MOBILE, TABLET } from 'components/Styled/Responsive'
 
 import DownloadsProvider from '../DownloadsProvider'
+import FavoritesProvider from '../FavoritesProvider'
 import PetsProvider from '../PetsProvider'
 
 const MainWrapper = styled(FlexContainer)`
@@ -33,12 +34,14 @@ export const LayoutWrapper: React.FC = () => {
             <GlobalStyle />
             <CookiesProvider>
                 <DownloadsProvider>
-                    <PetsProvider>
-                        <NavBar />
-                        <MainWrapper $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL} as="main">
-                            <Outlet />
-                        </MainWrapper>
-                    </PetsProvider>
+                    <FavoritesProvider>
+                        <PetsProvider>
+                            <NavBar />
+                            <MainWrapper $isFlexCol={true} $alignItems={STD_ALIGN_NORMAL} as="main">
+                                <Outlet />
+                            </MainWrapper>
+                        </PetsProvider>
+                    </FavoritesProvider>
                 </DownloadsProvider>
             </CookiesProvider>
         </>
