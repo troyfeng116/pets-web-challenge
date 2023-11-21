@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pets-web-challenge/static/css/main.b752b85f.css",
-    "main.js": "/pets-web-challenge/static/js/main.b4dd3add.js",
+    "main.js": "/pets-web-challenge/static/js/main.21a29888.js",
     "static/js/787.7d8f3b52.chunk.js": "/pets-web-challenge/static/js/787.7d8f3b52.chunk.js",
     "index.html": "/pets-web-challenge/index.html",
     "main.b752b85f.css.map": "/pets-web-challenge/static/css/main.b752b85f.css.map",
-    "main.b4dd3add.js.map": "/pets-web-challenge/static/js/main.b4dd3add.js.map",
+    "main.21a29888.js.map": "/pets-web-challenge/static/js/main.21a29888.js.map",
     "787.7d8f3b52.chunk.js.map": "/pets-web-challenge/static/js/787.7d8f3b52.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b752b85f.css",
-    "static/js/main.b4dd3add.js"
+    "static/js/main.21a29888.js"
   ]
 }
